@@ -1,0 +1,65 @@
+<%- include("partials/header") %>   <!-- ejs Layouts -->
+
+<!-- HEADING -->
+
+<div class="heading">
+
+<div class="row">
+  <div class="col-sm-4">
+    <div class="">
+      <img class="mainImage" src="images/home_page.png" alt="Smiley face">
+    </div>
+  </div>
+  <div class="col-sm-8 homeContent">
+    <h1 class="hech"> Weekly NewsLetter: Tweets for Higher Engagements </h1>
+    <p class="paragraphHeader" > <%= mainText %> </p>
+
+       <div class="avatar">
+         <img src="images/userAvatar-1.png" class="userIcon" alt="">
+         <h1 class="userIconText"> Eze Excel</h1>
+         <p class="iconTitle" > Content Manager </p>
+       </div>
+  </div>
+</div>
+
+</div>
+
+<hr>
+
+<!-- BODY SECTION -->
+
+<div class="row" id="bodyDiv">
+
+  <% posts.forEach(function(post){ %>
+
+    <div class="col-md-6 col-lg-4">
+      <div>
+        <img class="mainImage" src="images/Article3.png" alt="Smiley face">
+      </div>
+
+      <h1 class="hechBody"> <%= (post.name) %> </h1>
+      <p class="paragraphBody" ><%= (post.post.substring(0, 100) + " ...") %> <a href="/posts/<%=post.name%>" >..Read More</a> </p>
+      <div class="avatar">
+        <img src="images/userAvatar-1.png" class="userIcon" alt="">
+        <h1 class="userIconText" style="padding-top:8px;"> David Suns</h1>
+        <p class="iconTitle" >Brand Manager</p>
+      </div>
+
+    </div>
+
+  <% }); %>
+
+</div>
+
+<hr>
+
+
+
+
+
+
+
+
+
+
+<%- include("partials/footer") %>   <!-- ejs Layout -->

@@ -1,0 +1,28 @@
+zzzzzzzzzzzzzz.products.insert(
+  {
+    _id: 2,
+    name: "Letticia",
+    Race: "Human",
+    Height: 5.5,
+    Review: [
+    {
+      Author: "Excel",
+      Gender: "Male",
+      Rating: 5.5,
+      Description: "Cute!!"
+    },
+    {
+      Author: "Excel_2.0",
+      Gender: "Male",
+      Rating: 5.5,
+      Description: "Cute!!"
+    },
+    {
+      Author: "Excel_3.0",
+      Gender: "Male",
+      Rating: 5.5,
+      Description: "Cute!!"
+    },
+    ]
+  }
+)

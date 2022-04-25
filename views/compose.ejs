@@ -1,0 +1,59 @@
+
+<%- include("partials/header") %>
+
+<!-- HEADING -->
+
+<div class="heading">
+
+<div class="row">
+  <div class="col-sm-4">
+    <div class="">
+      <img class="mainImage" src="images/compose.png" alt="Smiley face">
+    </div>
+  </div>
+  <div class="col-sm-8 homeContent">
+    <h1 class="hech"> Compose Blog </h1>
+    <p class="paragraphHeader" > Compose awesome blog content here. Unleash your
+       full creativity and enjoy premium content.  </p>
+
+       <div class="avatar">
+         <img src="images/userAvatar-1.png" class="userIcon" alt="">
+         <h1 class="userIconText"> Eze Excel </h1>
+         <p class="iconTitle" > Content Manager</p>
+       </div>
+  </div>
+</div>
+
+</div>
+
+    <!-- COMPOSE -->
+
+<div class="compose">
+
+  <form class="" action="/" method="post">
+
+    <div class="form-group">
+
+      <div class="input-group flex-nowrap padding">
+        <input type="text" class="form-control" required="required" placeholder="Title" name="newText">
+      </div>
+
+      <div class="form-floating padding">
+        <textarea class="form-control" name="bigText" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+        <label for="floatingTextarea2">Posts</label>
+      </div>
+
+
+    </div>
+
+    <button class="btn btn-primary" type="submit" name="button"> Publish </button>
+
+  </form>
+
+</div>
+
+<hr>
+
+
+
+<%- include("partials/footer") %>
