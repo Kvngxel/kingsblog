@@ -37,8 +37,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/blogDB");
-let loginCall = "";
+mongoose.connect("mongodb+srv://excel:excel2000@cluster0.nmntn.mongodb.net/blogDB");
+// mongoose.connect("mongodb://localhost:27017/blogDB");
 
 
 // --------- AUTHENTICATION ---------- //
@@ -102,7 +102,6 @@ app.post("/login", function(req, res){
     username: req.body.username,
     password: req.body.password
   });
-
   req.login(user, function(err, username, password){
     if (err) {
       console.log(err);
@@ -123,7 +122,7 @@ postSchema = new mongoose.Schema ({
 const Post = mongoose.model("post", postSchema)
 
 
-// ---------------   GET REQUESTS    --------------- //
+// -------------   Main Page    --------------- //
 
 app.get("/", function(req, res){
   Post.find(function(err, postName){
@@ -155,7 +154,6 @@ app.get("/compose", function(req, res){
   if (req.isAuthenticated()){
     res.render("compose", {currentYear:currentYear})
   } else {
-    loginCall = "/compose"
     res.redirect("/login")
   }  
 });
