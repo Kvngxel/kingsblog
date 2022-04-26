@@ -1,0 +1,3 @@
+mongo "mongodb+srv://cluster0.nmntn.mongodb.net/myFirstDatabase" --username excel
+
+mongodb+srv://excel:<password>@cluster0.nmntn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
