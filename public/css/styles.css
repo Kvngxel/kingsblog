@@ -157,6 +157,17 @@ input {
   margin:20px 0;
 }
 
+/* Validation alert */
+
+.custom-alert {
+  color: #084298;
+  background-color: #cfe2ff;
+  border-color: #40DFEF;
+}
+.custom-alert .alert-link {
+  color: #06357a;
+}
+
 /* FOOTER */
 
 .footer{

@@ -10,6 +10,13 @@
 
         <h2 class="auth-h2">Create Account</h2>
 
+         <!-- Flash Message from app.js Register validation  -->
+         <% if ( message.length > 0){ %>
+          <div class="alert custom-alert">
+            <%= message %>
+          </div>
+        <% } %> 
+
           <form action="/register" method="POST">
             <div class="form-group spacing">
               <label for="AccountName">User Name</label>

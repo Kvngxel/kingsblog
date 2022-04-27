@@ -13,8 +13,9 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook');
 const findOrCreate = require('mongoose-findorcreate')
 
-const expressLayouts = require('express-ejs-layouts')
-const flash = require('connect-flash');
+const expressLayouts = require("express-ejs-layouts")
+const flash = require("connect-flash");
+
 
 const homeStartingContent = "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
 const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Non diam phasellus vestibulum lorem sed. Platea dictumst quisque sagittis purus sit. Egestas sed sed risus pretium quam vulputate dignissim suspendisse. Mauris in aliquam sem fringilla. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Amet massa vitae tortor condimentum lacinia quis vel eros. Enim ut tellus elementum sagittis vitae. Mauris ultrices eros in cursus turpis massa tincidunt dui.";
@@ -26,6 +27,7 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
+app.use(flash());
 
 // Get currentYear 
 const currentYear = new Date().getFullYear(); 
@@ -58,6 +60,7 @@ userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
 const User = new mongoose.model("User", userSchema);
+
 passport.use(User.createStrategy());
 
 passport.serializeUser(function(user, done) {
@@ -80,35 +83,66 @@ app.get("/logout", function(req, res){
 // -----  Targeting Register Route  ------ //
 
 app.get("/register", function(req, res){
-  res.render("register", {currentYear:currentYear})
+  res.render("register", {currentYear:currentYear, message : req.flash("message")})
 })
 
 app.post("/register", function(req, res){
 
-  // accountName = req.body.accountName
-
-  User.register({username: req.body.username}, req.body.password, function(err, user){    
-    if (err) {
+  User.findOne({username: req.body.username}, function(user, err){
+    if (err){
       console.log(err)
-      res.redirect("/register");
-    } else {
-      passport.authenticate("local")(req, res, function(){
-        res.redirect("/");  
+      req.flash("message", err.username + " already exists, Please login");
+      res.redirect("/register")
+    }
+    else {
+
+      // Creating User Profile
+      Users = new User({
+        accontName: req.body.accountName,
+        username : req.body.username
+      });
+      // Register User
+      User.register(Users, req.body.password, function(err, user) {
+        if (err) {
+          console.log(err)
+          res.redirect("/register");
+        } else {
+          passport.authenticate("local")(req, res, function(){
+            res.redirect("/");  
+          });
+        }
       });
     }
-  });
+  })
+
+  
 });
 
 // -----  Targeting Login Route  ------ //
 
 app.get("/login", function(req, res){
-  res.render("login", {currentYear:currentYear})
+  res.render("login", {currentYear:currentYear, message : req.flash("message")})
 })
 
-app.post ("/login", passport.authenticate('local', {
-  successRedirect: "/compose",
-  failureRedirect: "/login",
-}))
+app.post("/login", function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {
+      return next(err); // will generate a 500 error
+    }
+    // Generate a JSON response reflecting authentication status
+    if (!user) {
+      req.flash("message", "User authentication failed - Invalid Username or Password");
+      return res.redirect("/login")
+    }
+    req.login(user, loginErr => {
+      if (loginErr) {
+        return next(loginErr);
+      }
+      return res.redirect("/")
+      
+    });      
+  })(req, res, next);
+});
 
 // Creating Post Schema
 postSchema = new mongoose.Schema ({
