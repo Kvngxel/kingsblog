@@ -42,10 +42,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb+srv://excel:excel2000@cluster0.nmntn.mongodb.net/blogDB");
-// mongoose.connect("mongodb://localhost:27017/blogDB");
+// mongoose.connect("mongodb+srv://excel:excel2000@cluster0.nmntn.mongodb.net/blogDB");
+mongoose.connect("mongodb://localhost:27017/blogDB");
 
 let url = "/";
+let auth = false;
 
 
 // --------- AUTHENTICATION ---------- //
@@ -79,6 +80,7 @@ passport.deserializeUser(function(id, done) {
 
 app.get("/logout", function(req, res){
   url = "/"
+  auth = false;
   req.logout();
   res.redirect("/");
 });
@@ -86,7 +88,7 @@ app.get("/logout", function(req, res){
 // -----  Targeting Register Route  ------ //
 
 app.get("/register", function(req, res){
-  res.render("register", {currentYear:currentYear, message : req.flash("message")})
+  res.render("register", {currentYear:currentYear, auth:auth, message : req.flash("message")})
 })
 
 app.post("/register", function(req, res){
@@ -111,6 +113,7 @@ app.post("/register", function(req, res){
           res.redirect("/register");
         } else {
           passport.authenticate("local")(req, res, function(){
+            auth = true;
             res.redirect(url);  
           });
         }
@@ -124,7 +127,7 @@ app.post("/register", function(req, res){
 // -----  Targeting Login Route  ------ //
 
 app.get("/login", function(req, res){
-  res.render("login", {currentYear:currentYear, message : req.flash("message")})
+  res.render("login", {currentYear:currentYear, auth:auth, message : req.flash("message")})
 })
 
 app.post("/login", function(req, res, next) {
@@ -141,6 +144,7 @@ app.post("/login", function(req, res, next) {
       if (loginErr) {
         return next(loginErr);
       }
+      auth = true;
       return res.redirect(url)
       
     });      
@@ -161,7 +165,7 @@ const Post = mongoose.model("post", postSchema)
 app.get("/", function(req, res){
   Post.find(function(err, postName){
     if (!err){
-      res.render("home", {mainText: homeStartingContent, posts: postName, currentYear:currentYear})
+      res.render("home", {mainText: homeStartingContent, posts: postName, auth:auth, currentYear:currentYear})
     }
   })
 });
@@ -177,17 +181,17 @@ app.post("/", function(req, res){
 });
 
 app.get("/about", function(req, res){
-  res.render("about", {mainText: aboutContent, currentYear:currentYear})
+  res.render("about", {mainText: aboutContent, auth:auth, currentYear:currentYear})
 });
 
 app.get("/contact", function(req, res){
-  res.render("contact", {mainText: contactContent, currentYear:currentYear})
+  res.render("contact", {mainText: contactContent, auth:auth, currentYear:currentYear})
 });
 
 app.get("/compose", function(req, res){
   if (req.isAuthenticated()){
     url = "/"
-    res.render("compose", {currentYear:currentYear})
+    res.render("compose", {currentYear:currentYear, auth:auth})
   } else {
     url = "/compose"
     res.redirect("/login")
@@ -203,7 +207,7 @@ let parameter = _.kebabCase(req.params.topic)
       for (let post of postName){
         const postTitle = _.kebabCase(post.name)       
         if (parameter === postTitle){
-          res.render("posts", {title :post.name, bigText :post.post, currentYear:currentYear} )
+          res.render("posts", {title :post.name, bigText :post.post, auth:auth, currentYear:currentYear} )
         }
       }
     } else {

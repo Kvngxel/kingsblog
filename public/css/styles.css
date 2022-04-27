@@ -130,12 +130,12 @@ input {
 }
 
 .auth-h2{
-  text-align:center;
-  margin-bottom: 40px;
+  text-align:center; 
+  margin-bottom: 25px;
 }
 
 .centerDiv{
-  margin: 75px 15% 10px;
+  margin: 62px 15% 52px;
 }
 
 .loginSubmit{
@@ -147,7 +147,11 @@ input {
 /* Register Css */
 
 .spacing{
-  margin: 3% 0;
+  margin: 15px 0;
+}
+
+.reg-center-div{
+  margin: 52px 15% 0;
 }
 
 .endRegister{
@@ -168,12 +172,30 @@ input {
   color: #06357a;
 }
 
+/* Favicon */
+
+.favicon{
+  height: 22px;
+  width: 22px;
+  margin: 0 2px 3px 0;
+}
+
+.favicon-active{
+  background-color: red;
+}
+
+.favicon-main{
+  height: 72px;
+  margin: 0 2px 7px 0;
+  width: 72px;
+}
+
 /* FOOTER */
 
 .footer{
   font-family: "Montserrat";
   font-size: 13px;
-  margin: 30px auto;
+  margin: 25px auto;
   text-align: center;
   width: 100%;
 }

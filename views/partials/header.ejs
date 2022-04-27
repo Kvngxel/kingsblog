@@ -40,19 +40,22 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Account
-              </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-                  <!-- <li><a class="dropdown-item" href="#">Edit Account</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Log Out</a></li> -->
-
-                  <li><a class="dropdown-item" href="/register">Create Account</a></li>
-                  <li><a class="dropdown-item" href="/login">Login</a></li>
-                  <li><a class="dropdown-item" href="/logout">Logout</a></li>
-
+              </a>              
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                  
+                  
+                  <% if ( auth  == true){ %>
+                    <li><a class="dropdown-item active" href="/register"> <img class="favicon" src="/favicon/user.png"> Profile</a></li>
+                    <li><a class="dropdown-item" href="/login"> <img class="favicon" src="/favicon/login.png"> Posts</a></li>
+                    <li><a class="dropdown-item" href="/logout"> <img class="favicon" src="/favicon/logout.png"> Logout</a></li>                                                      
+                  <% } else { %>
+                    <li><a class="dropdown-item" href="/register"> <img class="favicon" src="/favicon/create.png"> Create Account</a></li>
+                    <li><a class="dropdown-item" href="/login"> <img class="favicon" src="/favicon/login.png"> Login</a></li>
+                    <!-- <li><a class="dropdown-item" href="/logout"> <img class="favicon" src="/favicon/logout.png"> Logout</a></li>                                                    -->
+                  <% } %>
+                               
                 </ul>
-            </li>
+            </li>                
           </ul>
           <!-- <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
