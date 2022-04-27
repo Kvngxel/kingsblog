@@ -45,6 +45,8 @@ app.use(passport.session());
 mongoose.connect("mongodb+srv://excel:excel2000@cluster0.nmntn.mongodb.net/blogDB");
 // mongoose.connect("mongodb://localhost:27017/blogDB");
 
+let url = "/";
+
 
 // --------- AUTHENTICATION ---------- //
 
@@ -76,6 +78,7 @@ passport.deserializeUser(function(id, done) {
 // -----  Targeting LogOut Route  ------ //
 
 app.get("/logout", function(req, res){
+  url = "/"
   req.logout();
   res.redirect("/");
 });
@@ -108,7 +111,7 @@ app.post("/register", function(req, res){
           res.redirect("/register");
         } else {
           passport.authenticate("local")(req, res, function(){
-            res.redirect("/");  
+            res.redirect(url);  
           });
         }
       });
@@ -138,7 +141,7 @@ app.post("/login", function(req, res, next) {
       if (loginErr) {
         return next(loginErr);
       }
-      return res.redirect("/")
+      return res.redirect(url)
       
     });      
   })(req, res, next);
@@ -183,8 +186,10 @@ app.get("/contact", function(req, res){
 
 app.get("/compose", function(req, res){
   if (req.isAuthenticated()){
+    url = "/"
     res.render("compose", {currentYear:currentYear})
   } else {
+    url = "/compose"
     res.redirect("/login")
   }  
 });
