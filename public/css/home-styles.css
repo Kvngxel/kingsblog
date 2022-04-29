@@ -1,0 +1,119 @@
+
+/* #FEFBE7 kings yellow */ 
+
+body {
+    font-family: Nunito Sans,sans-serif;
+    line-height: 1.5;
+}
+
+.home-image {
+    height: 100%;
+    width: 100%;
+}
+
+.middle{
+    background-color: #f1f1f1;
+    width: 100%;
+    padding: 0 5.5% 35px;
+}
+
+
+.flex-item-middle{
+    background-color: #f1f1f1;
+    font-size: larger;
+    font-weight: 600;
+    padding: 35px 0 1px;
+    text-align: center;
+}
+
+.featured-paragraph{
+    font-size: larger;
+    margin-bottom: 0;
+    padding: 20px 0 10px;
+}
+
+.featured-paragraph:hover{
+    cursor: context-menu;
+}
+
+.flex-margin{
+    margin: 25px 0;
+}
+
+.padding-div{
+    margin: 0 10px;
+}
+
+.post-image{
+    border-radius: 7px 7px 0 0;
+    height: 225px;
+    width: 100%;
+}
+
+.post-text{
+    background-color: #fff;
+    border-radius: 0 0 7px 7px;
+    padding: 15px;
+    text-align: left;
+}
+
+.post-text-title{    
+    font-weight: 600;
+}
+
+/* Section  */
+
+.section{
+    margin: 60px 50px 0 50px;
+}
+
+.section-ul{
+    list-style-type: none;
+    margin-left: 30px;
+}
+
+.section-li{
+    cursor: pointer;
+    float: left;
+    margin: 25px 20px;
+}
+/* Reflect any change to .section-li-active  */
+
+.section-li-active{
+    color: gold;
+    cursor: pointer;
+    float: left;
+    font-weight: 600;
+    margin: 25px;
+}
+
+.section-li:hover{
+    color: gold;
+}
+
+.section-li-border{
+    border-right: 2px solid gold;
+    color: gold;
+    cursor: pointer;
+    float: left;
+    font-weight: 500;
+    height: 35px;
+    margin: 18px;
+}
+
+
+/* End Div  */
+
+.end{
+    background-color: #ffffff;
+    width: 100%;
+    padding: 0 7% 75px;
+}
+
+.post-text-end{
+    background-color: #f5f5f5;
+    border-radius: 0 0 7px 7px;
+    padding: 15px;
+    text-align: left;
+}
+

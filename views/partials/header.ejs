@@ -5,11 +5,20 @@
     <title>TheKingsBlog</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&family=Mulish&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,300;0,400;1,200;1,300&display=swap" rel="stylesheet">
   </head>
 
   <body>
 
-    <div class="container">
+    <div class="Ccontainer"> <!-- CHANGE CONTAINER BACK ON -->
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
@@ -45,8 +54,8 @@
                   
                   
                   <% if ( auth  == true){ %>
-                    <li><a class="dropdown-item active" href="/register"> <img class="favicon" src="/favicon/user.png"> Profile</a></li>
-                    <li><a class="dropdown-item" href="/login"> <img class="favicon" src="/favicon/posts.png"> Posts</a></li>
+                    <li><a class="dropdown-item active" href="/profile"> <img class="favicon" src="/favicon/user.png"> Profile</a></li>
+                    <li><a class="dropdown-item" href="/myProfile"> <img class="favicon" src="/favicon/posts.png"> Posts</a></li>
                     <li><a class="dropdown-item" href="/logout"> <img class="favicon" src="/favicon/logout.png"> Logout</a></li>                                                      
                   <% } else { %>
                     <li><a class="dropdown-item" href="/register"> <img class="favicon" src="/favicon/create.png"> Create Account</a></li>

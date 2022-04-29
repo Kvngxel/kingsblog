@@ -47,6 +47,8 @@ mongoose.connect("mongodb+srv://excel:excel2000@cluster0.nmntn.mongodb.net/blogD
 
 let url = "/";
 let auth = false;
+let status = "Create";
+let statusButton = "Submit"
 
 
 // --------- AUTHENTICATION ---------- //
@@ -197,6 +199,21 @@ app.get("/compose", function(req, res){
     res.redirect("/login")
   }  
 });
+
+app.get("/profile", function(req, res){
+  if (req.isAuthenticated()){
+    url = "/"
+    res.render("profile", {currentYear:currentYear, auth:auth, status:status, statusButton:statusButton})
+  } else {
+    url = "/profile"
+    res.redirect("/login")
+  }  
+});
+
+app.get("/myProfile", function(req, res){
+  res.render("myProfile", {auth:auth, currentYear:currentYear})
+});
+
 
 app.get("/posts/:topic", function(req, res){
 
