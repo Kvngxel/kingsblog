@@ -12,6 +12,9 @@ const passportLocalMongoose =  require("passport-local-mongoose")
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook');
 const findOrCreate = require('mongoose-findorcreate')
+const LocalStorage = require('node-localstorage').LocalStorage;
+
+localStorage = new LocalStorage('./scratch');
 
 const expressLayouts = require("express-ejs-layouts")
 const flash = require("connect-flash");
@@ -49,6 +52,18 @@ let url = "/";
 let auth = false;
 let status = "Create";
 let statusButton = "Submit"
+
+// jQuery side
+// let tConn = localStorage.getItem("theLocalStorage")
+// console.log(tConn)
+
+// app.post('/getUserName',function(req,res){
+
+//   var reqData =  JSON.stringify(req.body.data);
+
+//   console.log("reqData :::: " + reqData);
+
+// });
 
 
 // --------- AUTHENTICATION ---------- //
@@ -172,6 +187,10 @@ app.get("/", function(req, res){
   })
 });
 app.post("/", function(req, res){
+
+  var reqData =  JSON.stringify(req.body.data);
+  console.log("reqData :::: " + reqData);
+
   const newText = req.body.newText
   const bigText = req.body.bigText  
   const post = new Post ({

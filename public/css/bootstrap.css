@@ -5838,13 +5838,19 @@ textarea.form-control-lg {
   opacity: 0.9;
 }
 
+
+
+/* Changed to -50px each fro left and right  */
 .carousel-control-prev {
-  left: 0;
+  left: -50px;
 }
 
 .carousel-control-next {
-  right: 0;
+  right: 0px;
+  width: 90px;
 }
+
+
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
