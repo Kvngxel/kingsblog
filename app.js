@@ -18,6 +18,8 @@ localStorage = new LocalStorage('./scratch');
 
 const expressLayouts = require("express-ejs-layouts")
 const flash = require("connect-flash");
+const { intersection } = require('lodash');
+
 
 
 const homeStartingContent = "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
@@ -52,6 +54,8 @@ let url = "/";
 let auth = false;
 let status = "Create";
 let statusButton = "Submit"
+
+
 
 // jQuery side
 // let tConn = localStorage.getItem("theLocalStorage")
@@ -177,25 +181,54 @@ postSchema = new mongoose.Schema ({
 const Post = mongoose.model("post", postSchema)
 
 
+// -------------   Features Page    --------------- //
+
+// Post.find(function(err, posts){
+//   if (!err){
+
+//     // Features Section 
+//     let featuresPage = [];
+//     function pushFeatures(){
+//       for(let i = 0; i < 7; i++){
+//         featuresPage.push((posts[posts.length - i]))
+//       }      
+//     }
+//     pushFeatures();  
+//     // Note, featuresPage[0] is undefined. Start from featuresPage[1]  
+//     console.log(featuresPage)
+//   }
+// })
+
 // -------------   Main Page    --------------- //
 
+
 app.get("/", function(req, res){
-  Post.find(function(err, postName){
+
+  Post.find(function(err, posts){
     if (!err){
-      res.render("home", {mainText: homeStartingContent, posts: postName, auth:auth, currentYear:currentYear})
+      // Features Section 
+      let featuresPage = [];
+      function pushFeatures(){
+        for(let i = 0; i < 6; i++){
+          // Note, i + 1 is to remove undefined in featuresPost which comes at the end
+          featuresPage.push((posts[posts.length - (i + 1)])) 
+        }        
+      }
+      pushFeatures();  
+      // Render page  
+      res.render("home", {posts: posts, auth:auth, featuresPage:featuresPage, currentYear:currentYear})
     }
   })
 });
 app.post("/", function(req, res){
 
-  var reqData =  JSON.stringify(req.body.data);
-  console.log("reqData :::: " + reqData);
-
   const newText = req.body.newText
   const bigText = req.body.bigText  
+  const image = req.body.image
   const post = new Post ({
     name: newText,
-    post: bigText
+    post: bigText,
+    image: image
   })
   post.save()
   res.redirect("/");
@@ -204,6 +237,7 @@ app.post("/", function(req, res){
 app.get("/about", function(req, res){
   res.render("about", {mainText: aboutContent, auth:auth, currentYear:currentYear})
 });
+
 
 app.get("/contact", function(req, res){
   res.render("contact", {mainText: contactContent, auth:auth, currentYear:currentYear})

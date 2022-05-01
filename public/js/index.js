@@ -1,22 +1,4 @@
-
-
-const data= false
-
-$.ajax({
-    type: 'POST',
-    data: data,
-    url: '/test',                      
-    success: function(data) {
-        console.log('success');
-        console.log(JSON.stringify(data));                               
-    },
-    error: function(error) {
-        console.log("some error in fetching the notifications");
-     }
-});
-
-
-
+document.getElementById("para1").innerHTML = "<div> Hello </div>";
 
 // if ($(window).width() < 960) {
 //     alert('Less than 960');
@@ -24,3 +6,6 @@ $.ajax({
 //  else {
 //     alert('More than 960');
 //  }
+
+
+// let str = $.getElementById("screen-res").innerHTML = "I have changed!"
