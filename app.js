@@ -129,9 +129,7 @@ app.post("/register", function(req, res){
         }
       });
     }
-  })
-
-  
+  })  
 });
 
 // -----  Targeting Login Route  ------ //
@@ -147,7 +145,7 @@ app.post("/login", function(req, res, next) {
     }
     // Generate a JSON response reflecting authentication status
     if (!user) {
-      req.flash("message", "User authentication failed - Invalid Username or Password");
+      req.flash("message", "Invalid Username or Password");
       return res.redirect("/login")
     }
     req.login(user, loginErr => {

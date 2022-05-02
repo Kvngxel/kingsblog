@@ -9,3 +9,14 @@ if ($(window).width() < 985) {
  }
 
 
+//  Password Visibility
+
+function myFunction() {
+  var x = document.getElementById("inputPassword");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+

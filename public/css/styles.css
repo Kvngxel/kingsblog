@@ -122,11 +122,67 @@ input {
 
 
 .loginSpacing{
-  margin: 2% 0 20px;
+  margin: 25px 0 15px;
 }
 
 .endLogin{
-  margin: 12px 0 68px;
+  margin: 12px 0 58px;
+}
+
+i {
+  margin-left: -45px;
+}
+
+.log-info{
+  color: #383838;
+  margin: 16% 0 16% 11%;
+}
+
+.log-info h1{
+  font-family: 'Poppins', sans-serif;
+  font-size: 52px;
+  font-weight: 600;
+}
+
+.log-info p{
+  font-size: 20px;
+  font-family: 'Poppins', sans-serif;
+  margin: 20px;
+}
+
+.log-info img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}  
+
+.log-div{  
+  background-color: #f5f5f5;
+  border-radius: 3%;
+  font-size: small;
+  margin: 75px 120px 52px 10px;
+  padding: 7% 7% 1%;
+}
+
+@media only screen and (max-width: 1080px){
+  .log-div{
+    margin: 112px 80px 155px;
+    padding: 7% 8% 1%;
+  }
+  .log-info{
+    margin-bottom: 0;
+  }  
+  .log-info h1{
+    margin-bottom: 50px;
+  }
+  .log-info p{
+   width: 680px;
+  }
+  .log-info img{
+    margin:70px 0 0 80px;
+    width: 55%;
+  }  
 }
 
 .auth-h2{
@@ -225,6 +281,7 @@ input {
   color: #084298;
   background-color: #cfe2ff;
   border-color: #40DFEF;
+  text-align: center;
 }
 .custom-alert .alert-link {
   color: #06357a;
