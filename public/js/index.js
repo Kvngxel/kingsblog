@@ -1,11 +1,11 @@
-document.getElementById("para1").innerHTML = "<div> Hello </div>";
 
-// if ($(window).width() < 960) {
-//     alert('Less than 960');
-//  }
-//  else {
-//     alert('More than 960');
-//  }
+// Changing Features Page based on screen width 
+
+if ($(window).width() < 960) {
+    document.getElementById("big-screen").innerHTML = " ";
+ }
+ else {
+    document.getElementById("small-screen").innerHTML = " ";
+ }
 
 
-// let str = $.getElementById("screen-res").innerHTML = "I have changed!"

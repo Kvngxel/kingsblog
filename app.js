@@ -52,22 +52,11 @@ mongoose.connect("mongodb+srv://excel:excel2000@cluster0.nmntn.mongodb.net/blogD
 
 let url = "/";
 let auth = false;
+
+// For Create and Edit Profile
 let status = "Create";
 let statusButton = "Submit"
 
-
-
-// jQuery side
-// let tConn = localStorage.getItem("theLocalStorage")
-// console.log(tConn)
-
-// app.post('/getUserName',function(req,res){
-
-//   var reqData =  JSON.stringify(req.body.data);
-
-//   console.log("reqData :::: " + reqData);
-
-// });
 
 
 // --------- AUTHENTICATION ---------- //
@@ -181,26 +170,7 @@ postSchema = new mongoose.Schema ({
 const Post = mongoose.model("post", postSchema)
 
 
-// -------------   Features Page    --------------- //
-
-// Post.find(function(err, posts){
-//   if (!err){
-
-//     // Features Section 
-//     let featuresPage = [];
-//     function pushFeatures(){
-//       for(let i = 0; i < 7; i++){
-//         featuresPage.push((posts[posts.length - i]))
-//       }      
-//     }
-//     pushFeatures();  
-//     // Note, featuresPage[0] is undefined. Start from featuresPage[1]  
-//     console.log(featuresPage)
-//   }
-// })
-
 // -------------   Main Page    --------------- //
-
 
 app.get("/", function(req, res){
 
