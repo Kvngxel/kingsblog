@@ -1,12 +1,10 @@
 
 // Changing Features Page based on screen width 
-alert($(window).width())
 
-if ($(window).width() < 1090) {
+if ($(window).width() < 985) {
     document.getElementById("big-screen").innerHTML = " ";
  }
- else {
-    
+ else {    
     document.getElementById("small-screen").innerHTML = " ";
  }
 
