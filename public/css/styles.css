@@ -373,14 +373,68 @@ i {
 }
 
 
-/* Profile */
+/* ------ Profile ---- */
 
 .profile-h2{
   margin-bottom: 10px;
 }
 
-.profile-div{
-  margin: 45px 15% 52px;
+.profile-log-bg{
+  background-color: #FEFBE7;
+  margin-right: 25px;
+}
+/* Left Grid  */
+
+.profile-div{  
+  background-color: #f5f5f5;
+  border-radius: 3%;
+  font-size: small;
+  margin: 55px 45px 52px 75px;
+  padding: 7%;
+}
+
+.profile-info{
+  color: #383838;
+  margin: 16% 0 16% 11%;
+  padding-bottom: 50px;
+}
+
+.profile-info h1{
+  font-family: 'Poppins', sans-serif;
+  font-size: 52px;
+  font-weight: 600;
+}
+
+.profile-info p{
+  font-size: 20px;
+  font-family: 'Poppins', sans-serif;
+  margin: 20px;
+}
+
+.profile-info img{
+  display: block;
+  margin: 0 auto 0 -20px;
+  width: 85%;
+} 
+
+@media only screen and (max-width: 1080px){
+  .profile-div{
+    margin: 112px 90px 155px;
+    padding: 7% 8% 1%;
+  }
+  .profile-info{
+    margin-bottom: 0;
+  }  
+  .profile-info h1{
+    margin-bottom: 50px;
+  }
+  .profile-info p{
+   width: 680px;
+  }
+  .profile-info img{
+    margin:70px 0 0 80px;
+    width: 55%;
+  }  
 }
 
 .favicon-profile{
@@ -397,18 +451,9 @@ i {
 }
 /* Head Flex */
 
-.flex-container-head {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.flex-item-image {
-  margin: 0 7.5px 0 15px;
-}
-
-.flex-item-right {
-  flex: 35%;
-  margin: 40px 7.5px 0;
+.text-profile{
+  margin: 10px 7.5px 0;
+  text-align: center;
 }
 
 /* Body Flex */
