@@ -1,12 +1,12 @@
 <%- include("partials/header") %>
 
 
-<div class="row reg-main">
+<div class="row reg-main">  
   <div class="col-lg-6 col-md-12 col-sm-12 profile-log-bg">
     <div class="profile-info">        
-      <h1><%= status %> your Profile</h1>
-      <p>This is the <%= status %> page</p>
-      <p><%= status %> your profile. Be the best you you can be, Lets get to know you :)</p>
+      <h1><%= stat %> your Profile</h1>
+      <p>This is your <%= stat %> page</p>
+      <p><%= stat %> your profile. Be the best you you can be, Lets get to know you :)</p>
       <p>Welcome to the Kings Blog.</p>
       <img src="/images/profile-left.png" alt="Login Image">
     </div>
@@ -14,50 +14,51 @@
 
   <div class="col-lg-5 col-md-12 col-sm-12">
     <div class="profile-div">
-        
-        <div class="text-profile">
-          <h2 class="profile-h2"><%= status %> Profile</h2>
-          <small>This information will be displayed publicly</small>          
-        </div>
+      <div class="text-profile">
+        <h2 class="profile-h2"><%= stat %> Profile</h2>
+        <small>This information will be displayed publicly</small>          
+      </div>
       
-      <form action="/login" method="POST">            
+      <form action="/profile" method="POST">            
         <div class="flex-container">
           <div class="flex-item-first-name">
             <label for="firstName">First Name</label>
-            <input type="text" name="firstName" required="required" class="form-control" id="firstName">
+            <input type="text" name="firstName" value="<%= firstNameEdit %>" required="required" class="form-control" id="firstName">
           </div>
           <div class="flex-item-last-name">
             <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" required="required" class="form-control" id="lastName">              
+            <input type="text" name="lastName" value="<%= lastNameEdit %>" required="required" class="form-control" id="lastName">              
           </div>
           <div class="username">
             <label for="username">Username</label>
-            <input type="text" name="username" required="required" class="form-control" id="username">                            
+            <input readonly type="text" name="username" value="<%= accountName %>" required="required" class="form-control" id="username">                            
           </div>
           <div class="email-profile">
             <label for="email">Email</label>
-            <input type="text" name="email" required="required" class="form-control" id="email">                            
+            <input readonly type="text" name="email" value="<%= username %>" required="required" class="form-control" id="email">                            
           </div>
           <div class="about-profile">
-            <label for="about-profile">About</label>
-            <textarea class="form-control" name="about-profile" id="about-profile" style="height: 100px"></textarea>                
+            <label for="aboutP">About</label>
+            <textarea class="form-control" name="aboutP" placeholder="Max input of 310 characters" id="aboutP" maxlength="310" style="height: 100px"><%= aboutEdit %></textarea>     
           </div>              
           <div class="blogger-profile">
-            <label for="blogger">Blogger status</label>
-              <select class="form-select form-select-md form-profile" id="blogger" aria-label=".form-select-sm example">                   
-                <option value="contentCreator">Content Creator</option>
-                <option value="developer">Developer</option>
-                <option value="blogger">Blogger</option>
+            <label for="blogger">Blogger status</label>            
+              <select class="form-select form-select-md form-profile" name="bloggerStatus" required id="blogger" aria-label=".form-select-sm example">                   
+                <!-- Remember to fix annoying select issue -->
+                <option value="" selected disabled hidden></option>
+                <option value="Content Creator">Content Creator</option>
+                <option value="Developer">Developer</option>
+                <option value="Blogger">Blogger</option>
               </select> 
               <!-- Fix ugly option view on select dropdown -->
           </div>
           <div class="phone-profile">
-            <label for="phone-profile">Phone No.</label>
-            <input type="text" name="phone-profile" required="required" class="form-control" id="phone-profile">
+            <label for="phoneNumber">Phone No.</label>
+            <input type="number" value="<%= phoneNoEdit %>" name="phoneNumber" required="required" class="form-control" id="phoneNumber">
           </div>
           <!-- <div class="button-profile"> -->
             <div class="d-grid gap-2 col-6 mx-auto">
-              <button type="button" class="btn-profile btn-outline-danger"><%= statusButton %></button>
+              <button type="submit" class="btn-profile btn-outline-danger"><%= statButton %></button>
             </div>
             
           <!-- </div> -->

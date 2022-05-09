@@ -1,0 +1,45 @@
+<%- include("partials/header") %> 
+
+  <div class="my-profile">
+    <div class="profile-dash">
+     <img class="profile-pic" src="/favicon/profile-default.png" alt="Profile Pic">
+    </div>
+    
+    <div class="row">      
+      <!-- Posts Section  -->     
+      <div class="col-lg-12">
+        <h3 class="my-profile-name"> <%= firstNameEdit %> <%= lastNameEdit %></h3>
+        <p class="my-profile-p"><%= bloggerStatusEdit %></p>
+        <h4 class="my-profile-username" ><%= accountName %></h4>
+        <p class="my-profile-p" ><%= username %></p>
+        <div class="profile-bg">
+        <% if(noPost ===  false){ %>
+          <h4>All Posts</h4>
+        </div>
+        <div class="posts-container border">
+          <div class="row">
+            <% userPosts.slice().reverse().forEach(function(post){ %>                
+                <div class="col-lg-4 col-md-6">
+                    <div class="post-post">
+                        <img src="<%= post.image%>" alt="Post image">
+                        <div class="post-text">
+                        <h3><%= (post.name) %></h3>
+                        <p><%= (post.post.substring(0, 100) + "...") %> <br><a href="/posts/<%=post.name%>" >Read More</a>  </p>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>                    
+          </div>    
+        </div>
+        <% } else { %>
+        <div class="no-post border">
+            <img src="/images/no_post.png" alt="No post Img">
+        </div> 
+        <% } %>
+        <div class="my-post-bottom"></div>
+      </div>        
+    </div>
+</div>
+
+
+<%- include("partials/footer") %>

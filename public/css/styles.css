@@ -305,16 +305,248 @@ i {
   width: 52px;
 }
 
+/* --------- Compose ------------ */
+
+.compose-info{
+  color: #383838;
+  margin: 16% 30px 16% 7%;
+  padding-bottom: 50px;
+}
+
+.compose-info h1{
+  font-family: 'Poppins', sans-serif;
+  font-size: 43px;
+  font-weight: 600;
+}
+
+.compose-info p{
+  font-size: 20px;
+  font-family: 'Poppins', sans-serif;
+  margin: 20px;
+}
+
+.compose-info img{
+  display: block;
+  margin: 0 auto 0 -20px;
+  width: 85%;
+} 
+
+@media only screen and (max-width: 1080px){
+  
+  .compose-info{
+    margin-bottom: 0;
+  }  
+  .compose-info h1{
+    margin-bottom: 50px;
+  }
+  .compose-info p{
+   width: 680px;
+  }
+  .compose-info img{
+    margin:70px 0 0 80px;
+    width: 55%;
+  }  
+}
+
+.compose-image{
+  border-radius: 5px;
+  height: 255px;
+  width: 400px;
+}
+
+input[type="file"]{
+  display: none;
+}
+
+.file-label{
+  background-color: antiquewhite;
+  border-radius: 5px;
+  font-size: 15px;
+  justify-content: center;
+  margin: 25px 0 20px;
+  padding: 10px 15px;
+}
+.file-label:hover{
+  background-color: rgb(254, 243, 228);
+  color: rgb(112, 112, 112);
+}
+
 /* --------- myProfile ------------ */
 
-.myProfile-div{
-  margin: 43px 15% 37px;
+.edit-anchor{
+  color: #199aa9;
+  text-decoration: none;
+}
+.edit-anchor :hover{
+  color: #fff;
+}
+
+.my-profile{  
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+}
+
+.my-profile.pic{
+  height:130px;
+  width:300px;
+}
+
+.profile-dash{
+  background-color: #cfe2ff;  
+  height: 330px;
+  margin-bottom: 90px;
 }
 
 .profile-pic{
   border-radius: 100%;
-  height: 200px;
-  width: 200px;
+  height: 253px;
+  width: 253px;
+  margin: 170px 0 0 120px;
+}
+
+.my-profile-name{  
+  font-size: 30px;
+  font-weight: 600;
+  margin: 15px 0 10px 135px;
+}
+
+.my-profile-username{  
+  font-size: 22px;
+  font-weight: 600;
+  margin: 20px 0 10px 140px;
+}
+
+.my-profile hr{
+  margin: 20px 0 0 130px;
+  width: 50%;
+}
+
+.my-profile-p{
+  color: #409def;
+  font-size: 15px;  
+  margin: 13px 0 10px 140px;
+}
+
+.my-profile-about{
+  color: #5f5f5f;
+  font-size: 15px;
+  padding: 0 40px;
+  margin: 30px 0 10px 10px;
+  text-align: center;
+}
+
+.see-all{
+  margin-left: 25px;
+}
+
+.my-profile-button{
+  margin-top: 0px;
+}
+
+@media only screen and (max-width: 1080px){
+  .my-profile-button{
+    margin:30px 0 530px;
+  }
+  .my-post-bottom{
+    margin:30px 0 560px;
+  }
+}
+
+
+/* Profile posts section  */
+
+.profile-bg{
+  padding-right: 40px;
+}
+
+.profile-bg h4{
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+  margin: 10px 0 20px;
+}
+
+@media only screen and (max-width: 1080px){
+  .profile-bg{
+    padding-right:0;
+  }
+  .profile-bg h4{
+    margin-top: 45px ;
+  }
+}
+
+.profile-container{
+  border-radius: 7px;
+  padding: 15px;
+}
+
+/* Container for myPosts page  */
+.posts-container{
+  border-radius: 7px;
+  padding: 45px;
+}
+
+.profile-post{
+  margin: 20px 10px;
+}
+.profile-post img{
+  border-radius: 7px 7px 0 0;
+  height: 130px;
+  width: 100%;
+}
+
+.post-post{
+  margin: 20px 10px;
+}
+.post-post img{
+  border-radius: 7px 7px 0 0;
+  height: 230px;
+  width: 100%;
+}
+@media only screen and (max-width: 1080px){
+  .profile-post img{
+    height: 220px;
+  }
+}
+
+.post-text{
+  background-color: rgb(240, 240, 240);
+  border-radius: 0 0 7px 7px;
+  padding: 15px;
+  text-align: left;
+}
+.post-text h3{
+  font-size: 25px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.post-text p{
+  font-size:16px;
+  margin-bottom: 0;
+}
+
+/* Paragraph for myProfile  */
+.my-post-text{
+  background-color: rgb(240, 240, 240);
+  border-radius: 0 0 7px 7px;
+  padding: 15px;
+  text-align: left;
+}
+.my-post-text h3{
+  font-size: large;
+  text-align: left;
+}
+.my-post-text p{
+  font-size:smaller;
+  margin-bottom: 0;
+}
+
+
+/* ------------------ */
+
+.myProfile-div{
+  margin: 43px 15% 37px;
 }
 
 .profile-pic-flex{
@@ -336,40 +568,6 @@ i {
   color: #409def;
   font-size: 15px;
   margin-left: 5px;
-}
-
-.username-profile{
-  font-size: 20px;
-  margin: 0  0 0 5px;
-}
-
-.profile-email{
-  color: #409def;
-  font-size: 15px;
-  margin-left: 5px;
-}
-
-.underscore{
-  flex: 95%;
-  margin: 12px 30px 0; 
-}
-
-.about-myProfile{
-  flex: 95%;
-  margin: 12px 30px 0; 
-}
-
-.telephone{
-  flex: 40%;
-  font-size: 20px;
-  margin: 10px 0;
-  text-align: center;
-}
-
-.posts-number{
-  flex: 40%;
-  font-size: 20px;  
-  margin: 10px 0px;
 }
 
 
@@ -420,7 +618,7 @@ i {
 @media only screen and (max-width: 1080px){
   .profile-div{
     margin: 112px 90px 155px;
-    padding: 7% 8% 1%;
+    padding: 7% 8% 5%;
   }
   .profile-info{
     margin-bottom: 0;
@@ -506,7 +704,7 @@ i {
 
 .button-profile{
   flex: 90%;
-  margin: 18px 7.5px 0;
+  margin: 25px 7.5px 0;
 }
 
 /* Profile BUTTON  */
@@ -522,7 +720,7 @@ i {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  margin-top: 25px;
+  margin: 35px 0 35px;
   background-color: transparent;
   border: 1px solid transparent;
   padding: 0.375rem 0.75rem;
@@ -531,6 +729,38 @@ i {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+@media only screen and (max-width: 1080px){
+  .btn-profile {
+    margin-bottom: 4px;
+  }
+}
+
+.profile-no-post img{ 
+  display: block;
+  margin: 20px auto;
+  width: 50%;
+}
+
+/* my Posts section */
+
+.no-post img{ 
+  display: block;
+  margin: 20px auto;
+  width: 50%;
+}
+
+@media only screen and (max-width: 1080px){
+  .no-post {
+    margin: 100px 0 635px;
+  }
+}
+
+.my-posts h4{
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+  margin: 10px 0 20px;
+}
 /* FOOTER */
 
 .footer{
@@ -548,3 +778,5 @@ i {
   color: #a0a0a2;
   text-decoration: none;
 }
+
+

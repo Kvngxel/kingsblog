@@ -10,7 +10,7 @@
 </div>
 
 <div class="flex-item-middle">
-  <p class="featured-paragraph"> Featured Posts</p>
+  <p class="featured-paragraph"> Latest Posts</p>
 </div>
 
 <!-- Carousel Features Page Using index.js screeen Checker -->
@@ -24,7 +24,7 @@
         <% for(let i=0; i < 3; i++ ){ %>
           <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
             <div class="padding-div">
-              <img class="post-image" src="/images/man-city.jpg" alt="Post image">
+              <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
               <div class="post-text">
                 <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
                 <p ><%= ( featuresPage[i].post.substring(0, 100) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
@@ -43,7 +43,7 @@
         <% for(let i=3; i < 6; i++ ){ %>
           <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
             <div class="padding-div">
-              <img class="post-image" src="/images/eren.jpg" alt="Post image">
+              <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
               <div class="post-text">
                 <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
                 <p ><%= ( featuresPage[i].post.substring(0, 100) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
@@ -65,7 +65,7 @@
         <% for(let i=0; i < 2; i++ ){ %>
           <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
             <div class="padding-div">
-              <img class="post-image" src="/images/man-city.jpg" alt="Post image">
+              <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
               <div class="post-text">
                 <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
                 <p ><%= ( featuresPage[i].post.substring(0, 100) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
@@ -84,7 +84,7 @@
         <% for(let i=2; i < 4; i++ ){ %>
           <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
             <div class="padding-div">
-              <img class="post-image" src="/images/eren.jpg" alt="Post image">
+              <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
               <div class="post-text">
                 <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
                 <p ><%= ( featuresPage[i].post.substring(0, 100) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
@@ -103,7 +103,7 @@
         <% for(let i=4; i < 6; i++ ){ %>
           <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
             <div class="padding-div">
-              <img class="post-image" src="/images/eren.jpg" alt="Post image">
+              <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
               <div class="post-text">
                 <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
                 <p ><%= ( featuresPage[i].post.substring(0, 100) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
@@ -153,7 +153,7 @@
   <% posts.slice().reverse().forEach(function(post){ %>
     <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
       <div class="padding-div">
-        <img class="post-image" src="/images/nature-post.png" alt="Post image">
+        <img class="post-image" src="<%= post.image%>" alt="Post image">
         <div class="post-text-end">
           <h3 class="post-text-title"><%= (post.name) %></h3>
           <p ><%= (post.post.substring(0, 100) + "...") %> <br><a href="/posts/<%=post.name%>" >Read More</a>  </p>

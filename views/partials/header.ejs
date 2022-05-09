@@ -51,12 +51,15 @@
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Account
               </a>              
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">                 
                   
-                  
-                  <% if ( auth  == true){ %>
-                    <li><a class="dropdown-item active" href="/profile"> <img class="favicon" src="/favicon/user.png"> Profile</a></li>
-                    <li><a class="dropdown-item" href="/myProfile"> <img class="favicon" src="/favicon/posts.png"> Posts</a></li>
+                  <% if ( auth  === true){ %>
+                    <% if ( createdProfile  === true){ %>
+                    <li><a class="dropdown-item active" href="/myProfile"> <img class="favicon" src="/favicon/user.png"> Profile</a></li>
+                    <% } else { %>
+                    <li><a class="dropdown-item active" href="/profile"> <img class="favicon" src="/favicon/user.png"> Profile</a></li>                      
+                    <% } %>
+                    <li><a class="dropdown-item" href="/compose"> <img class="favicon" src="/favicon/posts.png"> Compose</a></li>
                     <li><a class="dropdown-item" href="/logout"> <img class="favicon" src="/favicon/logout.png"> Logout</a></li>                                                      
                   <% } else { %>
                     <li><a class="dropdown-item" href="/register"> <img class="favicon" src="/favicon/create.png"> Create Account</a></li>

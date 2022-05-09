@@ -1,68 +1,60 @@
 
 <%- include("partials/header") %>
 
-<!-- HEADING -->
 
-<div class="heading">
-
-<div class="row">
-  <div class="col-sm-4">
-    <div class="">
-      <img class="mainImage" src="images/compose.png" alt="Smiley face">
+<div class="row reg-main">  
+  <div class="col-lg-6 col-md-12 col-sm-12 profile-log-bg">
+    <div class="compose-info">        
+      <h1>Compose amazing content</h1>
+      <p>Welcome to the Kings Blog. Here your free to express your creative brilliance</p>
+      <p>Write something today. Experience creativity at its peak, Write something beautiful :)</p>
+      <img src="/images/profile-left.png" alt="Login Image">
     </div>
   </div>
-  <div class="col-sm-8 homeContent">
-    <h1 class="hech"> Compose Blog </h1>
-    <p class="paragraphHeader" > Compose awesome blog content here. Unleash your
-       full creativity and enjoy premium content.  </p>
 
-       <div class="avatar">
-         <img src="images/userAvatar-1.png" class="userIcon" alt="">
-         <h1 class="userIconText"> Eze Excel </h1>
-         <p class="iconTitle" > Content Manager</p>
-       </div>
+  <div class="col-lg-5 col-md-12 col-sm-12">
+    <div class="profile-div">
+      <div class="text-profile">
+        <h2 class="profile-h2">Compose</h2>
+        <small>This information will be displayed publicly</small>          
+      </div>
+      
+      <form action="/" method="POST" enctype="multipart/form-data">         
+        <div class="form-group">
+          <!-- Title input          -->
+          <div class="">
+            <label for="newText">Title</label>
+            <input type="text" class="form-control" id="newText" required="required" name="newText">
+          </div>           
+          <!-- Image Upload    -->
+          <div>          
+            <input type="file" id="file" name="image" required accept="image/*">
+            <label for="file" class="file-label">Click to add photo</label>
+            <small>Landscape image</small>
+          </div>
+           <!-- Message input   -->
+          <div class="form-floating padding">
+            <textarea class="form-control" required name="bigText" minlength="110" placeholder="Leave a comment here" id="bigText" style="height: 200px"></textarea>
+            <label for="bigText">Post</label>
+            <small>Minimum of 110 characters</small>
+          </div>
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <button type="submit" name="button" class="btn-profile btn-primary">Post</button>
+        </div>
+      </form>
+      <!-- <div>
+        <form action="/image" method="post">
+           Image Upload
+          <div>
+            <input type="file" name="image" accept="image/*">
+          </div>
+          <button type="submit" name="button" class="btn-profile btn-primary">Post</button>
+        </form>
+      </div> -->
+    </div>
   </div>
 </div>
-
-</div>
-
-    <!-- COMPOSE -->
-
-<div class="compose">
-
-  <form class="" action="/" method="post">
-
-    <div class="form-group">
-
-      <div class="input-group flex-nowrap padding">
-        <input type="text" class="form-control" required="required" placeholder="Title" name="newText">
-      </div>
-
-      <div class="form-floating padding">
-        <textarea class="form-control" name="bigText" minlength="110" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-        <label for="floatingTextarea2">Posts</label>
-        <small>Minimum of 110 characters</small>
-      </div>
-<!-- 
-      <div>
-        <label for="image">Upload Image</label>
-        <input type="file" id="image" 
-               name="image" value="" required>
-    </div> -->
-
-      <!-- <input type="text" id="name" name="name" required minlength="4" maxlength="8" size="10"> -->
-
-
-    </div>
-
-    <button class="btn btn-primary" type="submit" name="button"> Publish </button>
-
-  </form>
-
-</div>
-
-<hr>
-
 
 
 <%- include("partials/footer") %>

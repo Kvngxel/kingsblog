@@ -19,7 +19,10 @@ localStorage = new LocalStorage('./scratch');
 const expressLayouts = require("express-ejs-layouts")
 const flash = require("connect-flash");
 const { intersection } = require('lodash');
+const { string } = require('joi');
 
+
+const path = require('path');
 
 
 const homeStartingContent = "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
@@ -32,7 +35,22 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
+app.use("/uploads", express.static("uploads"));
 app.use(flash());
+
+// image uploads 
+const fs = require("fs");
+const  multer = require("multer");
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, "uploads")
+  },
+  filename: (req, file, cb) => {
+      cb(null, file.originalname)
+      // cb(null, new Date().toISOString() + file.originalname)
+  }
+});
+var upload = multer({ storage: storage });
 
 // Get currentYear 
 const currentYear = new Date().getFullYear(); 
@@ -47,23 +65,27 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb+srv://excel:excel2000@cluster0.nmntn.mongodb.net/blogDB");
-// mongoose.connect("mongodb://localhost:27017/blogDB");
+// mongoose.connect("mongodb+srv://excel:excel2000@cluster0.nmntn.mongodb.net/blogDB");
+mongoose.connect("mongodb://localhost:27017/blogDB");
 
 let url = "/";
 let auth = false;
+let noPost = true;
+let createdProfile = false;
 
-// For Create and Edit Profile
-let status = "Create";
-let statusButton = "Submit"
-
-
+// for create/edit profile // 
+let stat = "Create";
+let statButton = "Submit";
 
 // --------- AUTHENTICATION ---------- //
 
 const userSchema = new mongoose.Schema ({
-  accontName: String,
-  email:String,
+  accountName: String,
+  firstName: String,
+  lastName: String,
+  aboutUser: String,
+  bloggerStatus: String,
+  phoneNumber: Number,
   password: String,
   googleId: String,
   facebookId: String
@@ -92,13 +114,15 @@ app.get("/logout", function(req, res){
   url = "/"
   auth = false;
   req.logout();
+  noPost = true;
+  createdProfile = false;
   res.redirect("/");
 });
 
 // -----  Targeting Register Route  ------ //
 
 app.get("/register", function(req, res){
-  res.render("register", {currentYear:currentYear, auth:auth, message : req.flash("message")})
+  res.render("register", {currentYear:currentYear, auth:auth, createdProfile:createdProfile, message : req.flash("message")})
 })
 
 app.post("/register", function(req, res){
@@ -113,7 +137,7 @@ app.post("/register", function(req, res){
 
       // Creating User Profile
       Users = new User({
-        accontName: req.body.accountName,
+        accountName: req.body.accountName,
         username : req.body.username
       });
       // Register User
@@ -123,7 +147,17 @@ app.post("/register", function(req, res){
           res.redirect("/register");
         } else {
           passport.authenticate("local")(req, res, function(){
-            auth = true;
+            auth = true;       
+            // for create/edit profile //      
+            if (req.user.firstName === undefined){              
+              stat = "Create";
+              statButton = "Submit";
+              createdProfile = false;
+            } else {
+              stat = "Edit";
+              statButton = "Save";
+              createdProfile = true;
+            }
             res.redirect(url);  
           });
         }
@@ -135,7 +169,7 @@ app.post("/register", function(req, res){
 // -----  Targeting Login Route  ------ //
 
 app.get("/login", function(req, res){
-  res.render("login", {currentYear:currentYear, auth:auth, message : req.flash("message")})
+  res.render("login", {currentYear:currentYear, auth:auth, createdProfile:createdProfile,  message : req.flash("message")})
 })
 
 app.post("/login", function(req, res, next) {
@@ -153,16 +187,46 @@ app.post("/login", function(req, res, next) {
         return next(loginErr);
       }
       auth = true;
+      // for create/edit profile //      
+      if (req.user.firstName === undefined){              
+        stat = "Create";
+        statButton = "Submit";
+        createdProfile = false;
+      } else {
+        stat = "Edit";
+        statButton = "Save";
+        createdProfile = true;
+      }
       return res.redirect(url)
       
     });      
   })(req, res, next);
 });
+// -----------Image Schema ------------ //
+
+var imageSchema = new mongoose.Schema({
+  fName: String,
+  image: String
+});
+Image = mongoose.model("Image", imageSchema);
+
+// let upload = multer ({
+//   storage: multer.diskStorage({
+//     destination: (req, file, cb) => {
+//       cb (null, "./uploads");
+//     }, 
+//     filename: function (req, res, callback) {
+//       callback(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname))
+//     }
+//   })
+// });
 
 // Creating Post Schema
 postSchema = new mongoose.Schema ({
   name:String,
-  post: String
+  post: String,
+  userId: String,
+  image: String
 })
 // Creating Post Model
 const Post = mongoose.model("post", postSchema)
@@ -184,18 +248,19 @@ app.get("/", function(req, res){
       }
       pushFeatures();  
       // Render page  
-      res.render("home", {posts: posts, auth:auth, featuresPage:featuresPage, currentYear:currentYear})
+      res.render("home", {posts: posts, auth:auth, featuresPage:featuresPage, currentYear:currentYear, createdProfile:createdProfile})
     }
   })
 });
-app.post("/", function(req, res){
-
+app.post("/", upload.single("image"), function(req, res){
   const newText = req.body.newText
-  const bigText = req.body.bigText  
-  const image = req.body.image
+  const bigText = req.body.bigText 
+  let userId = req.user.id
+  const image = req.file.path
   const post = new Post ({
     name: newText,
     post: bigText,
+    userId: userId,  
     image: image
   })
   post.save()
@@ -203,18 +268,17 @@ app.post("/", function(req, res){
 });
 
 app.get("/about", function(req, res){
-  res.render("about", {mainText: aboutContent, auth:auth, currentYear:currentYear})
+  res.render("about", {mainText: aboutContent, auth:auth, currentYear:currentYear, createdProfile:createdProfile})
 });
 
-
 app.get("/contact", function(req, res){
-  res.render("contact", {mainText: contactContent, auth:auth, currentYear:currentYear})
+  res.render("contact", {mainText: contactContent, auth:auth, currentYear:currentYear, createdProfile:createdProfile})
 });
 
 app.get("/compose", function(req, res){
   if (req.isAuthenticated()){
     url = "/"
-    res.render("compose", {currentYear:currentYear, auth:auth})
+    res.render("compose", {currentYear:currentYear, auth:auth, createdProfile:createdProfile})
   } else {
     url = "/compose"
     res.redirect("/login")
@@ -224,35 +288,134 @@ app.get("/compose", function(req, res){
 app.get("/profile", function(req, res){
   if (req.isAuthenticated()){
     url = "/"
-    res.render("profile", {currentYear:currentYear, auth:auth, status:status, statusButton:statusButton})
+    User.find({_id:req.user.id}, (err, user) => {
+      if (err){
+        console.log(err)
+      } else {
+        let firstNameEdit = req.user.firstName;
+        let lastNameEdit = req.user.lastName;
+        let aboutEdit = req.user.aboutUser;
+        let phoneNoEdit = req.user.phoneNumber;
+        let bloggerStatusEdit = req.user.bloggerStatus;
+        res.render("profile", {currentYear:currentYear, auth:auth, stat:stat, createdProfile:createdProfile,
+          statButton:statButton, accountName:user[0].accountName, username:user[0].username, firstNameEdit:firstNameEdit,
+          lastNameEdit:lastNameEdit, aboutEdit:aboutEdit, phoneNoEdit:phoneNoEdit, bloggerStatusEdit:bloggerStatusEdit,
+          message : req.flash("message")})        
+      }
+    })    
   } else {
     url = "/profile"
     res.redirect("/login")
   }  
 });
+app.post("/profile", (req, res) => {
+  User.updateMany({_id: req.user.id}, {'$set':{firstName: req.body.firstName, lastName:req.body.lastName,
+    aboutUser:req.body.aboutP, bloggerStatus:req.body.bloggerStatus, phoneNumber:req.body.phoneNumber}}, function (err, user){
+    if (err){
+      console.log(err)
+    }
+    createdProfile = true
+    res.redirect("/myProfile");
+  })     
+})
 
 app.get("/myProfile", function(req, res){
-  res.render("myProfile", {auth:auth, currentYear:currentYear})
+  if (req.isAuthenticated()){
+    Post.find({userId: req.user.id}, function (err, user){
+      if(err){
+        console.log(err)
+      } 
+      if (user) {
+        userPosts = (user)
+        url = "/";
+        if (userPosts.length != 0){
+          noPost = false;
+        }
+        // Checking if user has created profile 
+        if (createdProfile === false){
+          res.redirect("/profile")
+        } else {
+          User.find({_id:req.user.id}, (err, user) => {
+            if (err){
+              console.log(err)
+            } else {
+              let firstNameEdit = req.user.firstName;
+              let lastNameEdit = req.user.lastName;
+              let aboutEdit = req.user.aboutUser;
+              let phoneNoEdit = req.user.phoneNumber;
+              let bloggerStatusEdit = req.user.bloggerStatus;
+              // res.render("myProfile", {currentYear:currentYear, auth:auth, })
+              res.render("myProfile", {currentYear:currentYear, auth:auth, userPosts:userPosts, noPost:noPost,
+                createdProfile:createdProfile, accountName:user[0].accountName, username:user[0].username,
+                firstNameEdit:firstNameEdit, lastNameEdit:lastNameEdit, aboutEdit:aboutEdit, phoneNoEdit:phoneNoEdit,
+                bloggerStatusEdit:bloggerStatusEdit})        
+            }
+          }) 
+        }        
+      }
+    })   
+  } else {
+    url = "/myProfile"
+    res.redirect("/login")
+  }  
 });
 
+app.get("/myPosts", function(req, res){
+  if (req.isAuthenticated()){
+   
+    Post.find({userId: req.user.id}, function (err, user){
+      if(err){
+        console.log(err)
+      } 
+      if (user) {
+        userPosts = (user)
+        url = "/";
+        if (userPosts.length != 0){
+          noPost = false;
+        }   
+        // Checking if user has created profile 
+        if (createdProfile === false){
+          res.redirect("/profile")
+        } else {
+          User.find({_id:req.user.id}, (err, user) => {
+            if (err){
+              console.log(err)
+            } else {
+              let firstNameEdit = req.user.firstName;
+              let lastNameEdit = req.user.lastName;
+              let aboutEdit = req.user.aboutUser;
+              let phoneNoEdit = req.user.phoneNumber;
+              let bloggerStatusEdit = req.user.bloggerStatus;
+              // res.render("myProfile", {currentYear:currentYear, auth:auth, })
+              res.render("myPosts", {currentYear:currentYear, auth:auth, userPosts:userPosts, noPost:noPost,
+                createdProfile:createdProfile, accountName:user[0].accountName, username:user[0].username,
+                firstNameEdit:firstNameEdit, lastNameEdit:lastNameEdit, aboutEdit:aboutEdit, phoneNoEdit:phoneNoEdit,
+                bloggerStatusEdit:bloggerStatusEdit})        
+            }
+          }) 
+        }         
+      }
+    })    
+  } else {
+    url = "/myPosts"
+    res.redirect("/login")
+  }  
+});
 
 app.get("/posts/:topic", function(req, res){
-
 let parameter = _.kebabCase(req.params.topic)
-
   Post.find(function(err, postName){
     if (!err){
       for (let post of postName){
         const postTitle = _.kebabCase(post.name)       
         if (parameter === postTitle){
-          res.render("posts", {title :post.name, bigText :post.post, auth:auth, currentYear:currentYear} )
+          res.render("posts", {title :post.name, bigText :post.post, auth:auth, currentYear:currentYear, createdProfile:createdProfile} )
         }
       }
     } else {
       console.log(err)
     }
   })
-
 });
 
 
