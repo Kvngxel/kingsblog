@@ -3,28 +3,45 @@
 
 <!-- HEADING -->
 
-<div class="heading">
-
-<div class="row">
-  <div class="col-sm-4">
-    <div class="">
-      <img class="mainImage" src="/images/about.png" alt="Smiley face">
-    </div>
+<div class="container-article">
+  <h6><%= postType %></h6>
+  <div class="">
+    <img class="mainImage" src="/<%= image %>" alt="Smiley face">
+    <h6 class="posts-date"><%= postDate %></h6>
   </div>
-  <div class="col-sm-8 homeContent">
-    <h1 class="hech"> <%= title %> </h1>
-    <p class="paragraphHeader" > <%= bigText %> </p>
-
-       <div class="avatar">
-         <img src="/images/userAvatar-1.png" class="userIcon" alt="">
-         <h1 class="userIconText"> Eze Excel </h1>
-         <p class="iconTitle" > Content Manager</p>
-       </div>
+  <h1 class="hech"> <%= title %> </h1>
+  <div class="multiline post-width">
+    <%= bigText %>
   </div>
+  <div class="avatar">
+    <img src="/images/userAvatar-1.png" class="userIcon" alt="">
+    <h4 class="userIconText"> Eze Excel </h4>
+    <p class="iconTitle" > Content Manager</p>
+  </div>  
+
+  <% if (myPost === true){%>
+    <a href="/edit" class="btn-profile btn-outline-secondary">Edit post</a>
+    <a href="/delete" class="btn-profile btn-danger" onclick="return confirm('Are you sure you want to delete this post?');">Delete post</a>
+  <% } %>
+  
 </div>
 
+<div class="rec-article">
+  <h4>Latest Articles</h4>
+  <% Posts.slice(-3).reverse().forEach(function(post){ %>
+    <div class="article-rec">
+      <div class="row">
+        <div class="col-sm-3 col-md-4 col-lg-3">
+          <img src="/<%= post.image %>" alt="">
+        </div>
+        <div class="col-sm-9 col-md-8 col-lg-9">
+          <h5><%= post.name %></h5>
+          <p ><%= (post.post.substring(0, 100) + "...") %> <br><a href="/posts/<%=post.name%>" >Read More</a>  </p>
+        </div>
+      </div>
+    </div>  
+  <% }); %>
 </div>
 
-<hr>
 
 <%- include("partials/footer") %>

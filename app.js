@@ -18,7 +18,7 @@ localStorage = new LocalStorage('./scratch');
 
 const expressLayouts = require("express-ejs-layouts")
 const flash = require("connect-flash");
-const { intersection } = require('lodash');
+const { intersection, entries } = require('lodash');
 const { string } = require('joi');
 
 
@@ -41,6 +41,7 @@ app.use(flash());
 // image uploads 
 const fs = require("fs");
 const  multer = require("multer");
+const { listeners } = require('process');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
       cb(null, "uploads")
@@ -52,8 +53,18 @@ const storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 
+
 // Get currentYear 
 const currentYear = new Date().getFullYear(); 
+// current Month 
+const months = ["January","February","March","April","May","June",
+"July","August","September","October","November","December"];
+let month = months[new Date().getMonth()];
+// Current Day
+day = new Date().getDate();
+
+fullDate = month + " " + day + ", " + currentYear
+
 
 app.use(session({
   secret: "Our little secret.",
@@ -69,9 +80,35 @@ mongoose.connect("mongodb+srv://excel:excel2000@cluster0.nmntn.mongodb.net/blogD
 // mongoose.connect("mongodb://localhost:27017/blogDB");
 
 let url = "/";
+let delUrl = "/";
 let auth = false;
 let noPost = true;
 let createdProfile = false;
+
+// Filter Functionality
+let filter = "";
+let all = true;
+
+let filterAll = "section-li-active";
+let filterNews = "";
+let filterSports = "";
+let filterEntertainment = "";
+let filterTech = "";
+let filterFashion = "";
+let filterBranding = "";  
+
+// Check if current user has this post 
+let myPost = false;
+
+// Delete Post 
+let postId = "";
+
+// Edit Post
+let editPost = false;
+let  editPostPost = "";
+let  editPostName = "";
+let  editPostImage = "";
+let  editPostType = "";
 
 // for create/edit profile // 
 let stat = "Create";
@@ -113,6 +150,7 @@ passport.deserializeUser(function(id, done) {
 app.get("/logout", function(req, res){
   url = "/"
   auth = false;
+  editPost = false;
   req.logout();
   noPost = true;
   createdProfile = false;
@@ -122,53 +160,62 @@ app.get("/logout", function(req, res){
 // -----  Targeting Register Route  ------ //
 
 app.get("/register", function(req, res){
-  res.render("register", {currentYear:currentYear, auth:auth, createdProfile:createdProfile, message : req.flash("message")})
+  editPost = false;
+  res.render("register", {currentYear:currentYear, auth:auth, createdProfile:createdProfile,
+    message : req.flash("message"), message2 : req.flash("message2")})
 })
 
 app.post("/register", function(req, res){
 
-  User.findOne({username: req.body.username}, function(user, err){
-    if (err){
-      console.log(err)
-      req.flash("message", err.username + " already exists, Please login");
+  // Check if email exists 
+  User.findOne({username: req.body.username}, function(err, user){
+    if (user){
+      req.flash("message", user.username + " already exists, Please login");
       res.redirect("/register")
     }
-    else {
-
-      // Creating User Profile
-      Users = new User({
-        accountName: req.body.accountName,
-        username : req.body.username
-      });
-      // Register User
-      User.register(Users, req.body.password, function(err, user) {
-        if (err) {
-          console.log(err)
-          res.redirect("/register");
-        } else {
-          passport.authenticate("local")(req, res, function(){
-            auth = true;       
-            // for create/edit profile //      
-            if (req.user.firstName === undefined){              
-              stat = "Create";
-              statButton = "Submit";
-              createdProfile = false;
-            } else {
-              stat = "Edit";
-              statButton = "Save";
-              createdProfile = true;
-            }
-            res.redirect(url);  
-          });
-        }
-      });
-    }
+    // Check if username exists 
+    User.findOne({accountName: req.body.accountName}, (err, user)=> {
+      if (user){
+        req.flash("message2", "Username '" + user.accountName + "' already exists, Please choose another");
+        res.redirect("/register")
+      } else {
+        // Creating User Profile
+        Users = new User({
+          accountName: req.body.accountName,
+          username : req.body.username
+        });
+        // Register User
+        User.register(Users, req.body.password, function(err, user) {
+          if (err) {
+            console.log(err)
+            console.log("RegErr")
+            res.redirect("/register");
+          } else {
+            passport.authenticate("local")(req, res, function(){
+              auth = true;       
+              // for create/edit profile //      
+              if (req.user.firstName === undefined){              
+                stat = "Create";
+                statButton = "Submit";
+                createdProfile = false;
+              } else {
+                stat = "Edit";
+                statButton = "Save";
+                createdProfile = true;
+              }
+              res.redirect(url);  
+            });
+          }
+        });       
+      }
+    })    
   })  
 });
 
 // -----  Targeting Login Route  ------ //
 
 app.get("/login", function(req, res){
+  editPost = false;
   res.render("login", {currentYear:currentYear, auth:auth, createdProfile:createdProfile,  message : req.flash("message")})
 })
 
@@ -176,6 +223,7 @@ app.post("/login", function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     if (err) {
       return next(err); // will generate a 500 error
+      console.log("loginErr")
     }
     // Generate a JSON response reflecting authentication status
     if (!user) {
@@ -202,40 +250,40 @@ app.post("/login", function(req, res, next) {
     });      
   })(req, res, next);
 });
-// -----------Image Schema ------------ //
-
-var imageSchema = new mongoose.Schema({
-  fName: String,
-  image: String
-});
-Image = mongoose.model("Image", imageSchema);
-
-// let upload = multer ({
-//   storage: multer.diskStorage({
-//     destination: (req, file, cb) => {
-//       cb (null, "./uploads");
-//     }, 
-//     filename: function (req, res, callback) {
-//       callback(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname))
-//     }
-//   })
-// });
 
 // Creating Post Schema
 postSchema = new mongoose.Schema ({
   name:String,
   post: String,
   userId: String,
-  image: String
+  image: String,
+  postType: String,
+  postDate: String
 })
 // Creating Post Model
 const Post = mongoose.model("post", postSchema)
 
 
+// make admin page (Authorization)
+// Add option to put user profile pic and user dashboard image from myProfile page only
+// edit navbar css 
+// edit about us and contact us css
+// Know what to do with services page in footer
+
+
 // -------------   Main Page    --------------- //
 
 app.get("/", function(req, res){
-
+  editPost = false;
+  function clearFilter(){    
+    filterAll = "";
+    filterNews = "";
+    filterSports = "";
+    filterEntertainment = "";
+    filterTech = "";
+    filterFashion = "";
+    filterBranding = "";
+  }  
   Post.find(function(err, posts){
     if (!err){
       // Features Section 
@@ -246,39 +294,174 @@ app.get("/", function(req, res){
           featuresPage.push((posts[posts.length - (i + 1)])) 
         }        
       }
-      pushFeatures();  
-      // Render page  
-      res.render("home", {posts: posts, auth:auth, featuresPage:featuresPage, currentYear:currentYear, createdProfile:createdProfile})
+      pushFeatures(); 
+      // Filter Functionality
+      if ( all === true){
+        Post.find( (err, post) => {
+          if (!err){
+            // Render page  
+            res.render("home", {posts: post, auth:auth, filterAll:filterAll, filterTech:filterTech,
+              filterNews:filterNews, filterSports:filterSports, filterEntertainment:filterEntertainment,
+              filterFashion:filterFashion, filterBranding:filterBranding, featuresPage:featuresPage,
+              currentYear:currentYear, createdProfile:createdProfile}) 
+              clearFilter();  
+          }
+        })
+      } else {
+        Post.find({postType:filter}, (err, post) => {
+          if (!err){
+            // Render page  
+            res.render("home", {posts: post, auth:auth, filterAll:filterAll, filterTech:filterTech,
+              filterNews:filterNews, filterSports:filterSports, filterEntertainment:filterEntertainment,
+              filterFashion:filterFashion, filterBranding:filterBranding, featuresPage:featuresPage,
+              currentYear:currentYear, createdProfile:createdProfile})  
+              clearFilter();
+          }
+        })
+      }      
     }
   })
 });
-app.post("/", upload.single("image"), function(req, res){
+
+// Filter Functionality
+app.get("/filter/:topic", function(req, res){
+  filtr = req.params.topic.toUpperCase() 
+  if (req.params.topic === "all"){
+    all = true;
+    res.redirect("/#section")
+  } else {      
+    filter = filtr
+    all = false;
+    res.redirect("/#section")    
+  } 
+  // Filter Switch Active    
+  switch (filtr) { 
+    case "ALL":
+      filterAll = "section-li-active";
+      break;
+    case "NEWS":
+      filterNews = "section-li-active";
+      break;
+    case "SPORTS":
+      filterSports = "section-li-active";
+      break;
+    case "ENTERTAINMENT":
+      filterEntertainment = "section-li-active";
+      break;
+    case "TECH":
+      filterTech = "section-li-active";
+      break;
+    case "FASHION":
+      filterFashion = "section-li-active";
+      break;
+    case "BRANDING":
+      filterBranding = "section-li-active";
+      break;
+    default:
+      console.log("Invalid option");   
+  }
+});
+
+app.post("/", upload.single("image"), function(req, res){  
   const newText = req.body.newText
   const bigText = req.body.bigText 
   let userId = req.user.id
   const image = req.file.path
-  const post = new Post ({
-    name: newText,
-    post: bigText,
-    userId: userId,  
-    image: image
-  })
-  post.save()
-  res.redirect("/");
+  const postType = req.body.postType
+
+  function postUpdate(){
+    Post.updateMany({_id: postId},{'$set':{name: newText, post: bigText, image: image, postType: postType}}, (err, post) =>{
+      if (err){
+        console.log(err)
+      }
+      // else {
+      //   console.log("Updated Successfully")
+      // }
+    })
+    res.redirect("/")
+  }
+
+  // If user is editing post
+  if (editPost === true){
+    // Check if post name already exists 
+    Post.find({name:newText}, (err, post) =>{
+      if (err){
+        console.log(err)
+      } else {
+        // Check if edit is the same name
+        if (post.length > 0){
+          if (post[0].name === newText){
+            postUpdate()
+          } 
+        } else {
+          console.log(post)
+          // check if new edit name already exists
+          if (post.length > 0){
+            req.flash("message", "Post name already exists");
+            return res.redirect("/compose")
+          } else {
+            postUpdate()
+          }
+        }        
+      }
+    }) 
+  } else {
+    // if user is creating new post
+    // Check if post name already exists 
+    Post.find({name:newText}, (err, post) =>{
+      if (err){
+        console.log(err)
+      } else {
+        // If post title already exists
+        if (post.length > 0){
+          req.flash("message", "Post name already exists");
+          return res.redirect("/compose")
+        } else {
+          // Create post
+          const post = new Post ({
+            name: newText,
+            post: bigText,
+            userId: userId,  
+            image: image,
+            postType: postType,
+            postDate: fullDate
+          })
+          post.save()
+          res.redirect("/");
+        }
+      }
+    }) 
+  }  
 });
 
 app.get("/about", function(req, res){
+  editPost = false;
   res.render("about", {mainText: aboutContent, auth:auth, currentYear:currentYear, createdProfile:createdProfile})
 });
 
 app.get("/contact", function(req, res){
+  editPost = false;
   res.render("contact", {mainText: contactContent, auth:auth, currentYear:currentYear, createdProfile:createdProfile})
 });
 
 app.get("/compose", function(req, res){
   if (req.isAuthenticated()){
-    url = "/"
-    res.render("compose", {currentYear:currentYear, auth:auth, createdProfile:createdProfile})
+
+    function editFunction (){
+      url = "/"
+      res.render("compose", {currentYear:currentYear, editPostPost:editPostPost, editPostName:editPostName,
+        editPostImage:editPostImage, editPostType:editPostType, auth:auth, createdProfile:createdProfile,
+        message : req.flash("message")})
+    }
+    if (editPost === false){
+      editPostPost = "";
+      editPostName = "";
+      editPostImage = "";
+      editPostType = "";
+      editFunction();      
+    } else {
+      editFunction();       
+    }    
   } else {
     url = "/compose"
     res.redirect("/login")
@@ -286,6 +469,7 @@ app.get("/compose", function(req, res){
 });
 
 app.get("/profile", function(req, res){
+  editPost = false;
   if (req.isAuthenticated()){
     url = "/"
     User.find({_id:req.user.id}, (err, user) => {
@@ -320,6 +504,7 @@ app.post("/profile", (req, res) => {
 })
 
 app.get("/myProfile", function(req, res){
+  editPost = false;
   if (req.isAuthenticated()){
     Post.find({userId: req.user.id}, function (err, user){
       if(err){
@@ -361,6 +546,7 @@ app.get("/myProfile", function(req, res){
 });
 
 app.get("/myPosts", function(req, res){
+  editPost = false;
   if (req.isAuthenticated()){
    
     Post.find({userId: req.user.id}, function (err, user){
@@ -402,14 +588,39 @@ app.get("/myPosts", function(req, res){
   }  
 });
 
+app.get("/edit", (req, res) => {
+  editPost = true;
+  res.redirect("/compose")
+})
+
 app.get("/posts/:topic", function(req, res){
 let parameter = _.kebabCase(req.params.topic)
+  delUrl = parameter
   Post.find(function(err, postName){
+    postName = postName
     if (!err){
-      for (let post of postName){
+      console.log(postId)
+      for (let post of postName){ 
         const postTitle = _.kebabCase(post.name)       
         if (parameter === postTitle){
-          res.render("posts", {title :post.name, bigText :post.post, auth:auth, currentYear:currentYear, createdProfile:createdProfile} )
+          
+          // Checking if current user is Authenticated 
+          if (req.isAuthenticated()){
+            // Checking if current viewer posted this post 
+            if (post.userId === req.user.id){
+              myPost = true;
+            } else {
+              myPost = false;
+            }
+          }
+          editPost = false;
+          postId = post.id
+          editPostPost = post.post
+          editPostName = post.name
+          editPostImage = post.image
+          editPostType = post.postType
+          let delUrl = parameter
+          res.render("posts", {title :post.name, myPost:myPost, postType:post.postType, postDate:post.postDate, image:post.image, Posts:postName, bigText:post.post, auth:auth, currentYear:currentYear, createdProfile:createdProfile} )                             
         }
       }
     } else {
@@ -417,6 +628,34 @@ let parameter = _.kebabCase(req.params.topic)
     }
   })
 });
+
+app.get("/delete", (req, res)=>{
+  if (req.isAuthenticated()){
+    Post.find({_id: postId}, (err, post) =>{
+      if (err){
+        console.log(err)
+      } else {
+        // Check if current user posted this post 
+        if (post[0].userId === req.user.id){
+          Post.deleteOne({_id: postId}, (err, post)=>{
+            if (err){
+              console.log(err)
+            } else {
+              console.log("Deleted")              
+              postId = "";
+              res.redirect(url)
+            }
+          })
+        } else {
+          res.redirect("/")
+        }
+      }
+    })    
+  } else {
+    url = "/posts/" + delUrl
+    res.redirect("/login")
+  }    
+})
 
 
 app.listen(process.env.PORT || 3000, function() {

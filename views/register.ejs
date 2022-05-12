@@ -20,10 +20,17 @@
         <!-- <img class="favicon-main" src="/favicon/create.png"> -->
         <h4 class="auth-h2">Sign Up</h4>
 
-          <!-- Flash Message from app.js Register validation  -->
+          <!-- Flash Message from app.js Register validation Email -->
           <% if ( message.length > 0){ %>
             <div class="alert custom-alert">
               <%= message %>
+            </div>
+          <% } %> 
+
+          <!-- Flash Message from app.js Register validation Username -->
+          <% if ( message2.length > 0){ %>
+            <div class="alert custom-alert">
+              <%= message2 %>
             </div>
           <% } %> 
 

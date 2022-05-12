@@ -8,7 +8,6 @@ if ($(window).width() < 985) {
     document.getElementById("small-screen").innerHTML = " ";
  }
 
-
 //  Password Visibility
 
 function myFunction() {
@@ -19,4 +18,3 @@ function myFunction() {
     x.type = "password";
   }
 }
-

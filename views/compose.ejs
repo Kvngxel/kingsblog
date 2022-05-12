@@ -3,7 +3,7 @@
 
 
 <div class="row reg-main">  
-  <div class="col-lg-6 col-md-12 col-sm-12 profile-log-bg">
+  <div class="col-lg-4 col-md-12 col-sm-12 profile-log-bg">
     <div class="compose-info">        
       <h1>Compose amazing content</h1>
       <p>Welcome to the Kings Blog. Here your free to express your creative brilliance</p>
@@ -12,46 +12,58 @@
     </div>
   </div>
 
-  <div class="col-lg-5 col-md-12 col-sm-12">
-    <div class="profile-div">
-      <div class="text-profile">
+  <div class="col-lg-7 col-md-12 col-sm-12">
+    <div class="compose-div">
+      <div class="text-profile">         
         <h2 class="profile-h2">Compose</h2>
         <small>This information will be displayed publicly</small>          
       </div>
       
       <form action="/" method="POST" enctype="multipart/form-data">         
         <div class="form-group">
-          <!-- Title input          -->
+          <!-- Title input  -->
           <div class="">
             <label for="newText">Title</label>
-            <input type="text" class="form-control" id="newText" required="required" name="newText">
-          </div>           
+            <input type="text" value="<%= editPostName %>" class="form-control" id="newText" required="required" name="newText">
+            <small>Max of 35 characters</small>
+          </div>    
+          <!-- Flash Message from app.js post-name validation  -->
+        <% if ( message.length > 0){ %>
+          <div class="alert custom-alert">
+            <%= message %>
+          </div>
+        <% } %>       
           <!-- Image Upload    -->
           <div>          
-            <input type="file" id="file" name="image" required accept="image/*">
-            <label for="file" class="file-label">Click to add photo</label>
+            <input type="file" id="fileInput" value="<%= editPostImage %>" name="image" onchange="document.getElementById('img-label').innerHTML = (this.value).slice(12) " required accept="image/*">
+            <label for="fileInput" id="img-label" class="file-label">Click to add photo</label>
             <small>Landscape image</small>
           </div>
            <!-- Message input   -->
-          <div class="form-floating padding">
-            <textarea class="form-control" required name="bigText" minlength="110" placeholder="Leave a comment here" id="bigText" style="height: 200px"></textarea>
+          <div class="form-floating padding"> 
+            <textarea class="form-control" required name="bigText" minlength="110" id="bigText" style="height: 200px"><%= editPostPost %></textarea>
             <label for="bigText">Post</label>
             <small>Minimum of 110 characters</small>
           </div>
         </div>
+        <!-- Post type  -->
+        <div class="">
+          <label for="postType">Post Type</label>
+          <select class="form-select form-select-md form-profile" name="postType" required id="postType" aria-label=".form-select-sm example">                   
+            <!-- Remember to fix annoying select issue -->
+            <option value="" selected disabled hidden></option>
+            <option value="NEWS">News</option>
+            <option value="SPORTS">Sports</option>
+            <option value="ENTERTAINMENT">Entertainment</option>
+            <option value="TECH">Tech</option>
+            <option value="FASHION">Fashion</option>
+            <option value="BRANDING">Branding</option>
+          </select> 
+        </div> 
         <div class="d-grid gap-2 col-6 mx-auto">
           <button type="submit" name="button" class="btn-profile btn-primary">Post</button>
         </div>
       </form>
-      <!-- <div>
-        <form action="/image" method="post">
-           Image Upload
-          <div>
-            <input type="file" name="image" accept="image/*">
-          </div>
-          <button type="submit" name="button" class="btn-profile btn-primary">Post</button>
-        </form>
-      </div> -->
     </div>
   </div>
 </div>

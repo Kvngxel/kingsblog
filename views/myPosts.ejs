@@ -1,7 +1,8 @@
 <%- include("partials/header") %> 
 
   <div class="my-profile">
-    <div class="profile-dash">
+    <div>
+     <img class="profile-dash" src="/images/dashboard.png" alt="">
      <img class="profile-pic" src="/favicon/profile-default.png" alt="Profile Pic">
     </div>
     
@@ -20,13 +21,25 @@
           <div class="row">
             <% userPosts.slice().reverse().forEach(function(post){ %>                
                 <div class="col-lg-4 col-md-6">
+                  <a class="aaa" href="/posts/<%=post.name%>">      
                     <div class="post-post">
-                        <img src="<%= post.image%>" alt="Post image">
-                        <div class="post-text">
-                        <h3><%= (post.name) %></h3>
-                        <p><%= (post.post.substring(0, 100) + "...") %> <br><a href="/posts/<%=post.name%>" >Read More</a>  </p>
-                        </div>
+                      <img src="<%= post.image%>" alt="Post image">
+                      <div class="post-text">
+                        <p class="my-post-text-date"><%= post.postDate %></p>
+                        <% if ((post.name).length > 50){ %>              
+                          <h3><%= (post.name.substring(0, 50) + "...") %></h3>
+                        <% } else { %>
+                          <h3><%= (post.name) %></h3>
+                        <% } %>
+
+                        <% if ((post.name).length > 25){ %>
+                          <p><%= (post.post.substring(0, 120) + "...") %> <br><a href="/posts/<%=post.name%>" >Read More</a>  </p>
+                        <% } else { %>
+                          <p><%= (post.post.substring(0, 163) + "...") %> <br><a href="/posts/<%=post.name%>" >Read More</a>  </p>
+                        <% } %>                        
+                      </div>
                     </div>
+                  </a>
                 </div>
             <% }); %>                    
           </div>    

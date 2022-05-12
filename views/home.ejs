@@ -6,7 +6,7 @@
 <div class="headingg">
 
 <div class="">
-  <img class="home-image" src="/images/home-image.png" alt="" width="150" height="100">
+  <img class="home-image" src="/images/home_image2.png" alt="" width="150" height="100">
 </div>
 
 <div class="flex-item-middle">
@@ -14,133 +14,192 @@
 </div>
 
 <!-- Carousel Features Page Using index.js screeen Checker -->
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-  <!-- For Large screens -->
-  <div id="big-screen" class="carousel-inner">
-    <!-- Carousel 1 -->
-    <div class="carousel-item active">
-      <div id="middle-id" class="row middle">
-        <!-- First three in featuresPage Array -->
-        <% for(let i=0; i < 3; i++ ){ %>
-          <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
-            <div class="padding-div">
-              <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
-              <div class="post-text">
-                <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
-                <p ><%= ( featuresPage[i].post.substring(0, 100) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
-              </div>
-            </div>
-          </div>
-        <% } %>          
+<% if (posts.length > 0) { %>
+  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <!-- For Large screens -->
+    <div id="big-screen" class="carousel-inner">
+      <!-- Carousel 1 -->
+      <div class="carousel-item active">
+        <div id="middle-id" class="row middle">
+          <!-- First three in featuresPage Array -->
+          <% for(let i=0; i < 3; i++ ){ %>
+            <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
+              <a class="aaa" href="/posts/<%= featuresPage[i].name%>"> 
+                <div class="padding-div">
+                  <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
+                  <div class="post-text">
+                  <p class="post-text-date"><%= featuresPage[i].postDate %></p>
+                  <% if ((featuresPage[i].name).length > 52){ %>
+                    <h3 class="post-text-title"><%= featuresPage[i].name.substring(0, 52) + "..." %></h3>
+                  <% } else { %>
+                    <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
+                  <% } %>
+                  <% if ((featuresPage[i].name).length > 25){ %>
+                    <p ><%= ( featuresPage[i].post.substring(0, 120) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
+                  <% } else { %>
+                    <p ><%= ( featuresPage[i].post.substring(0, 167) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
+                  <% } %>
+                </div>
+                </div>
+              </a>
+            </div>            
+          <% } %>          
+        </div>
       </div>
+  
+      <!-- Carousel 2 -->
+    
+      <div class="carousel-item" >
+        <div class="row middle">
+          <!-- Second three in featuresPage Array -->
+          <% for(let i=3; i < 6; i++ ){ %>
+            <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
+              <a class="aaa" href="/posts/<%= featuresPage[i].name%>">
+                <div class="padding-div">
+                  <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
+                  <div class="post-text">
+                  <p class="post-text-date"><%= featuresPage[i].postDate %></p>
+                  <% if ((featuresPage[i].name).length > 52){ %>
+                    <h3 class="post-text-title"><%= featuresPage[i].name.substring(0, 52) + "..." %></h3>
+                  <% } else { %>
+                    <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
+                  <% } %>
+                  <% if ((featuresPage[i].name).length > 25){ %>
+                    <p ><%= ( featuresPage[i].post.substring(0, 120) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
+                  <% } else { %>
+                    <p ><%= ( featuresPage[i].post.substring(0, 163) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
+                  <% } %>
+                </div>
+                </div>
+              </a>
+            </div>       
+          <% } %>   
+        </div>
+      </div>    
     </div>
-
-    <!-- Carousel 2 -->
   
-    <div class="carousel-item" >
-      <div class="row middle">
-        <!-- Second three in featuresPage Array -->
-        <% for(let i=3; i < 6; i++ ){ %>
-          <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
-            <div class="padding-div">
-              <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
-              <div class="post-text">
-                <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
-                <p ><%= ( featuresPage[i].post.substring(0, 100) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
-              </div>
-            </div>
-          </div>
-        <% } %>   
+    <!-- For small screens -->
+  
+    <div id="small-screen" class="carousel-inner">
+      <!-- Small Carousel 1 -->
+      <div class="carousel-item active">
+        <div id="middle-id" class="row middle">
+          <!-- First three in featuresPage Array -->
+          <% for(let i=0; i < 2; i++ ){ %>
+            <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
+              <a class="aaa" href="/posts/<%= featuresPage[i].name%>">            
+                <div class="padding-div">
+                  <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
+                  <div class="post-text">
+                    <p class="post-text-date"><%= featuresPage[i].postDate %></p>
+                    <% if ((featuresPage[i].name).length > 52){ %>
+                      <h3 class="post-text-title"><%= featuresPage[i].name.substring(0, 52) + "..." %></h3>
+                    <% } else { %>
+                      <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
+                    <% } %>
+                    <% if ((featuresPage[i].name).length > 25){ %>
+                      <p ><%= ( featuresPage[i].post.substring(0, 120) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
+                    <% } else { %>
+                      <p ><%= ( featuresPage[i].post.substring(0, 163) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
+                    <% } %>
+                  </div>
+                </div>
+              </a>
+            </div>        
+          <% } %>          
+        </div>
       </div>
-    </div>    
-  </div>
-
-  <!-- For small screens -->
-
-  <div id="small-screen" class="carousel-inner">
-    <!-- Small Carousel 1 -->
-    <div class="carousel-item active">
-      <div id="middle-id" class="row middle">
-        <!-- First three in featuresPage Array -->
-        <% for(let i=0; i < 2; i++ ){ %>
-          <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
-            <div class="padding-div">
-              <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
-              <div class="post-text">
-                <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
-                <p ><%= ( featuresPage[i].post.substring(0, 100) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
-              </div>
+  
+      <!-- Small Carousel 2 -->
+    
+      <div class="carousel-item" >
+        <div class="row middle">
+          <!-- Second three in featuresPage Array -->
+          <% for(let i=2; i < 4; i++ ){ %>
+            <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
+              <a class="aaa" href="/posts/<%= featuresPage[i].name%>">              
+                <div class="padding-div">
+                  <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
+                  <div class="post-text">
+                    <p class="post-text-date"><%= featuresPage[i].postDate %></p>
+                    <% if ((featuresPage[i].name).length > 52){ %>
+                      <h3 class="post-text-title"><%= featuresPage[i].name.substring(0, 52) + "..." %></h3>
+                    <% } else { %>
+                      <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
+                    <% } %>                  
+                    <% if ((featuresPage[i].name).length > 25){ %>
+                      <p ><%= ( featuresPage[i].post.substring(0, 120) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
+                    <% } else { %>
+                      <p ><%= ( featuresPage[i].post.substring(0, 163) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
+                    <% } %>
+                  </div>
+                </div>
+              </a>
             </div>
-          </div>
-        <% } %>          
-      </div>
+          
+          <% } %>   
+        </div>
+      </div>    
+  
+      <!-- Small Carousel 3 -->
+    
+      <div class="carousel-item" >
+        <div class="row middle">
+          <!-- Second three in featuresPage Array -->
+          <% for(let i=4; i < 6; i++ ){ %>
+            <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
+              <a class="aaa" href="/posts/<%= featuresPage[i].name%>">
+                <div class="padding-div">
+                  <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
+                  <div class="post-text">
+                    <p class="post-text-date"><%= featuresPage[i].postDate %></p>
+                    <% if ((featuresPage[i].name).length > 52){ %>
+                      <h3 class="post-text-title"><%= featuresPage[i].name.substring(0, 52) + "..." %></h3>
+                    <% } else { %>
+                      <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
+                    <% } %>
+                    <% if ((featuresPage[i].name).length > 25){ %>
+                      <p ><%= ( featuresPage[i].post.substring(0, 120) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
+                    <% } else { %>
+                      <p ><%= ( featuresPage[i].post.substring(0, 163) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
+                    <% } %>
+                  </div>
+                </div>
+              </a>
+            </div>        
+          <% } %>   
+        </div>
+      </div>    
     </div>
-
-    <!-- Small Carousel 2 -->
   
-    <div class="carousel-item" >
-      <div class="row middle">
-        <!-- Second three in featuresPage Array -->
-        <% for(let i=2; i < 4; i++ ){ %>
-          <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
-            <div class="padding-div">
-              <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
-              <div class="post-text">
-                <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
-                <p ><%= ( featuresPage[i].post.substring(0, 100) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
-              </div>
-            </div>
-          </div>
-        <% } %>   
-      </div>
-    </div>    
-
-    <!-- Small Carousel 3 -->
-  
-    <div class="carousel-item" >
-      <div class="row middle">
-        <!-- Second three in featuresPage Array -->
-        <% for(let i=4; i < 6; i++ ){ %>
-          <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
-            <div class="padding-div">
-              <img class="post-image" src="<%= featuresPage[i].image %>" alt="Post image">
-              <div class="post-text">
-                <h3 class="post-text-title"><%= featuresPage[i].name %></h3>
-                <p ><%= ( featuresPage[i].post.substring(0, 100) + "...") %> <br><a href="/posts/<%= featuresPage[i].name%>" >Read More</a>  </p>
-              </div>
-            </div>
-          </div>
-        <% } %>   
-      </div>
-    </div>    
+    <!-- Carousel Buttons -->
+    
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
-
-  <!-- Carousel Buttons -->
-  
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+<% } else { %>
+  <div class="flex-item-middle">
+    <p class="featured-paragraph"> No Posts Found in Database</p>
+  </div>
+<% } %>
 
 
-<!-- Test -->
-<!-- Remember make these filters work using mongo shell  -->
-<!-- Remember to add filter section in compose page  -->
-<div class="section">
+<div id="section" class="section">
   <ul class="section-ul">
-    <li class="section-li-active">All</li>
+    <a href="/filter/all"  id="all" class="section-li <%= filterAll %>">All</a>
     <li class="section-li-border"></li>
-    <li class="section-li">News</li>
-    <li class="section-li">Sports</li>
-    <li class="section-li">Entertainment</li>
-    <li class="section-li">Tech</li>
-    <li class="section-li">Fashion</li>
-    <li class="section-li">Branding</li>
+    <a href="/filter/news" class="section-li <%= filterNews %>">News</a>
+    <a href="/filter/sports" class="section-li <%= filterSports %>">Sports</a>
+    <a href="/filter/entertainment" class="section-li <%= filterEntertainment %>">Entertainment</a>
+    <a href="/filter/tech" class="section-li <%= filterTech %>">Tech</a>
+    <a href="/filter/fashion" class="section-li <%= filterFashion %>">Fashion</a>
+    <a href="/filter/branding" class="section-li <%= filterBranding %>">Branding</a>
   </ul>
 </div>
 
@@ -150,23 +209,34 @@
 
 <div class="row end">
   <!-- forEach loop in reverse to show latest posts first --> 
-  <% posts.slice().reverse().forEach(function(post){ %>
+  <% if (posts.length === 0){ %>
     <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
-      <div class="padding-div">
-        <img class="post-image" src="<%= post.image%>" alt="Post image">
-        <div class="post-text-end">
-          <h3 class="post-text-title"><%= (post.name) %></h3>
-          <p ><%= (post.post.substring(0, 100) + "...") %> <br><a href="/posts/<%=post.name%>" >Read More</a>  </p>
-        </div>
-        <!-- <div class="avatar">
-          <img src="images/userAvatar-1.png" class="userIcon" alt="">
-          <h1 class="userIconText" style="padding-top:8px;"> David Suns</h1>
-          <p class="iconTitle" >Brand Manager</p>
-        </div> -->
-      </div>
+      <p class="home-no-post"> No posts found</p>
     </div>
-  <% }); %>
-
+  <% } else { %>
+    <% posts.slice().reverse().forEach(function(post){ %>
+      <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
+        <a class="aaa" href="/posts/<%=post.name%>">      
+          <div class="padding-div">
+            <img class="post-image" src="<%= post.image%>" alt="Post image">
+            <div class="post-text-end">
+              <p class="post-text-date"><%= post.postDate %></p>
+              <% if ((post.name).length > 50){ %>              
+                <h3 class="post-text-title"><%= (post.name.substring(0, 50) + "...") %></h3>
+              <% } else { %>
+                <h3 class="post-text-title"><%= (post.name) %></h3>
+              <% } %>
+              <% if ((post.name).length > 25){ %>              
+                <p><%= (post.post.substring(0, 120) + "...") %> <br><a href="/posts/<%=post.name%>" >Read More</a>  </p>
+              <% } else { %>
+                <p><%= (post.post.substring(0, 163) + "...") %> <br><a href="/posts/<%=post.name%>" >Read More</a>  </p>
+              <% } %>
+            </div>
+          </div>      
+       </a>
+      </div>
+    <% }); %>
+  <% } %>
 </div>
 
 
