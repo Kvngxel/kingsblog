@@ -704,8 +704,12 @@ let parameter = _.kebabCase(req.params.topic)
           editPostName = post.name
           editPostImage = post.image
           editPostType = post.postType
+          // postLName = req.user.lastName
+          // postStatus = req.user.bloggerStatus
           let delUrl = parameter
-          res.render("posts", {title :post.name, userId:userId, home:home, compose:compose, about:about, myPost:myPost, userStatus:userStatus, postType:post.postType, postDate:post.postDate, image:post.image, Posts:postName, bigText:post.post, auth:auth, currentYear:currentYear, createdProfile:createdProfile} )                             
+          res.render("posts", {title :post.name, userId:userId, home:home, compose:compose, about:about, myPost:myPost, userStatus:userStatus,
+            postType:post.postType, postDate:post.postDate, image:post.image, Posts:postName, bigText:post.post,
+            auth:auth, currentYear:currentYear, createdProfile:createdProfile} )                             
         }
       }
     } else {

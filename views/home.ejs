@@ -222,14 +222,14 @@
             <div class="post-text-end">
               <p class="post-text-date"><%= post.postDate %></p>
               <% if ((post.name).length > 50){ %>              
-                <h3 class="post-text-title"><%= (post.name.substring(0, 50) + "...") %></h3>
+                <h3 class="post-text-title"><%= (post.name.substring(0, 40) + "...") %></h3>
               <% } else { %>
                 <h3 class="post-text-title"><%= (post.name) %></h3>
               <% } %>
               <% if ((post.name).length > 25){ %>              
                 <p><%= (post.post.substring(0, 120) + "...") %> <br><a href="/posts/<%=post.name%>" >Read More</a>  </p>
               <% } else { %>
-                <p><%= (post.post.substring(0, 163) + "...") %> <br><a href="/posts/<%=post.name%>" >Read More</a>  </p>
+                <p><%= (post.post.substring(0, 150) + "...") %> <br><a href="/posts/<%=post.name%>" >Read More</a>  </p>
               <% } %>
             </div>
           </div>      
