@@ -19,7 +19,7 @@
     <p class="iconTitle" > Content Manager</p>
   </div>  
 
-  <% if (myPost === true){%>
+  <% if (myPost === true || userId === "Admin"){%>
     <a href="/edit" class="btn-profile btn-outline-secondary">Edit post</a>
     <a href="/delete" class="btn-profile btn-danger" onclick="return confirm('Are you sure you want to delete this post?');">Delete post</a>
   <% } %>

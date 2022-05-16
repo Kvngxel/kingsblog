@@ -42,8 +42,12 @@
             <textarea class="form-control" name="aboutP" placeholder="Max input of 310 characters" id="aboutP" maxlength="310" style="height: 100px"><%= aboutEdit %></textarea>     
           </div>              
           <div class="blogger-profile">
-            <label for="blogger">Blogger status</label>            
+            <label for="blogger">Blogger status</label>  
+              <% if (stat === "Edit"){ %>
+              <select class="form-select form-select-md form-profile" name="bloggerStatus" id="blogger" aria-label=".form-select-sm example">                   
+            <% } else { %>     
               <select class="form-select form-select-md form-profile" name="bloggerStatus" required id="blogger" aria-label=".form-select-sm example">                   
+            <% } %>           
                 <!-- Remember to fix annoying select issue -->
                 <option value="" selected disabled hidden></option>
                 <option value="Content Creator">Content Creator</option>
@@ -55,6 +59,18 @@
           <div class="phone-profile">
             <label for="phoneNumber">Phone No.</label>
             <input type="number" value="<%= phoneNoEdit %>" name="phoneNumber" required="required" class="form-control" id="phoneNumber">
+          </div>
+          <!-- Image Upload    -->
+          <div>          
+            <input type="file" id="profileImage" name="profileImage" onchange="document.getElementById('profile-label').innerHTML = (this.value).slice(12)" accept="image/*">
+            <label for="profileImage" id="profile-label" class="edit-file-label">Click to add photo</label>
+            <small>Profile Pic</small>
+          </div>
+          <!-- Image Upload    -->
+          <div>          
+            <input type="file" id="dashImage" name="dashImage" onchange="document.getElementById('dash-label').innerHTML = (this.value).slice(12)" accept="image/*">
+            <label for="dashImage" id="dash-label" class="edit-file-label">Click to add photo</label>
+            <small>Dashboard Image</small>
           </div>
           <!-- <div class="button-profile"> -->
             <div class="d-grid gap-2 col-6 mx-auto">

@@ -9,9 +9,18 @@ if ($(window).width() < 985) {
  }
 
 //  Password Visibility
-
-function myFunction() {
+// Login Show 
+function myFunctionInput() {
   var x = document.getElementById("inputPassword");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+// Reg password 
+function myFunction() {
+  var x = document.getElementById("regPassword");
   if (x.type === "password") {
     x.type = "text";
   } else {

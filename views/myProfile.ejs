@@ -30,6 +30,7 @@
                         <div class="profile-post">
                           <img class="my-profile-pic" src="<%= post.image%>" alt="Post image">
                           <div class="my-post-text">
+                            <% console.log(userP)%>
                             <% if ((post.name).length > 15){ %>
                               <h3><%= (post.name.substring(0, 15) + "...") %></h3>
                             <% } else { %>

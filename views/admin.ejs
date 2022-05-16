@@ -1,0 +1,51 @@
+
+<%- include("partials/header") %>
+
+
+<div class="row reg-main">  
+  <div class="col-lg-4 col-md-12 col-sm-12 profile-log-bg">
+    <div class="compose-info">        
+      <h1>Admin Rights @</h1>
+      <p>Welcome to the Kings Blog. Here your free to express your creative brilliance</p>
+      <p>Write something today. Experience creativity at its peak, Write something beautiful :)</p>
+      <img src="/images/profile-left.png" alt="Login Image">
+    </div>
+  </div>
+
+  <div class="col-lg-7 col-md-12 col-sm-12">
+    <div class="admin">
+      <h4>All Posts</h4>
+    </div>
+    <div>
+      <% if (posts.length === 0){ %>
+        <div class="col-sm-12 col-md-6 col-lg-4 flex-margin">
+          <p class="home-no-post"> No posts found</p>
+        </div>
+      <% } else { %>
+        <div class="row border">
+          <% posts.slice().reverse().forEach(function(post){ %>
+            <div class="col-lg-4 col-md-6">
+              <a class="aaa" href="/posts/<%=post.name%>">  
+                <div class="profile-post">
+                  <img class="my-profile-pic" src="<%= post.image%>" alt="Post image">
+                  <div class="my-post-text">
+                    <% if ((post.name).length > 15){ %>
+                      <h3><%= (post.name.substring(0, 15) + "...") %></h3>
+                    <% } else { %>
+                      <h3><%= (post.name) %></h3>
+                    <% } %>
+                  <p><%= (post.post.substring(0, 35) + "...") %> <br><a href="/posts/<%=post.name%>" >Read More</a>  </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          <% }); %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+  
+</div>
+
+
+<%- include("partials/footer") %>

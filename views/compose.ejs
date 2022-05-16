@@ -34,8 +34,12 @@
           </div>
         <% } %>       
           <!-- Image Upload    -->
-          <div>          
+          <div>     
+          <% if ( editPost === true){ %> 
+            <input type="file" id="fileInput" value="<%= editPostImage %>" name="image" onchange="document.getElementById('img-label').innerHTML = (this.value).slice(12)" accept="image/*">
+          <% } else { %>     
             <input type="file" id="fileInput" value="<%= editPostImage %>" name="image" onchange="document.getElementById('img-label').innerHTML = (this.value).slice(12) " required accept="image/*">
+          <% } %>     
             <label for="fileInput" id="img-label" class="file-label">Click to add photo</label>
             <small>Landscape image</small>
           </div>
@@ -49,7 +53,11 @@
         <!-- Post type  -->
         <div class="">
           <label for="postType">Post Type</label>
-          <select class="form-select form-select-md form-profile" name="postType" required id="postType" aria-label=".form-select-sm example">                   
+          <% if ( editPost === true){ %>
+            <select class="form-select form-select-md form-profile" name="postType" id="postType" aria-label=".form-select-sm example">                   
+          <% } else { %>     
+            <select class="form-select form-select-md form-profile" name="postType" required id="postType" aria-label=".form-select-sm example">                   
+          <% } %>  
             <!-- Remember to fix annoying select issue -->
             <option value="" selected disabled hidden></option>
             <option value="NEWS">News</option>

@@ -10,7 +10,7 @@
   padding-top: 10px;
 }
 
-.nav-margin{
+.nav-div{
   margin-bottom: 75px;
 }
 
@@ -30,6 +30,22 @@ input {
 }
 
 /* Navigation */
+
+.nav-margin{
+  margin:20px 2px 12px;
+}
+
+@media only screen and (max-width: 992px){
+  .nav-margin{
+    margin:16px;
+  }
+  .navbar-margin{
+    margin:40px 40px 30px;
+  }
+  .nav-item :hover{
+    background-color: antiquewhite;
+  }
+}
 
 .nav{
   margin-top: 3px;
@@ -393,6 +409,19 @@ input[type="file"]{
   padding: 10px 15px;
 }
 .file-label:hover{
+  background-color: rgb(254, 243, 228);
+  color: rgb(112, 112, 112);
+}
+
+.edit-file-label{
+  background-color: antiquewhite;
+  border-radius: 5px;
+  font-size: 15px;
+  justify-content: center;
+  margin: 25px 10px 0;
+  padding: 10px 15px;
+}
+.edit-file-label:hover{
   background-color: rgb(254, 243, 228);
   color: rgb(112, 112, 112);
 }
@@ -900,6 +929,14 @@ input[type="file"]{
   font-weight: 600;
   text-align: center;
   margin: 10px 0 20px;
+}
+
+
+/* Admin */
+
+.admin h4{
+  font-size: 20px;
+  margin: 80px 40px 20px;
 }
 /* FOOTER */
 
