@@ -5842,7 +5842,8 @@ textarea.form-control-lg {
 
 /* Changed to -50px each fro left and right  */
 .carousel-control-prev {
-  left: -50px;
+  left: 13px;
+  width: 80px;
 }
 
 .carousel-control-next {

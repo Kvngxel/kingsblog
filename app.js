@@ -85,6 +85,9 @@ let auth = false;
 let noPost = true;
 let createdProfile = false;
 
+// Account name Functionality
+account = "Login";
+
 // Active page Functionality
 let active = "";
 let home = "";
@@ -171,6 +174,7 @@ app.get("/logout", function(req, res){
   noPost = true;
   createdProfile = false;
   userStatus = false;
+  account = "Login";
   req.logout();
   res.redirect("/");
 });
@@ -179,7 +183,7 @@ app.get("/logout", function(req, res){
 
 app.get("/register", function(req, res){
   editPost = false;
-  res.render("register", {currentYear:currentYear, auth:auth, createdProfile:createdProfile, home:home,
+  res.render("register", {currentYear:currentYear, auth:auth, account:account, createdProfile:createdProfile, home:home,
     compose:compose, about:about, message : req.flash("message"), message2 : req.flash("message2")})
 })
 
@@ -223,6 +227,11 @@ app.post("/register", function(req, res){
               }              
               if (req.user.userStatus === "Admin"){
                 userStatus = true;
+              }              
+              if (createdProfile === false){
+                account = "New User"
+              } else {
+                account = req.user.firstName + " " + req.user.lastName;
               }
               res.redirect(url);  
             });
@@ -237,7 +246,7 @@ app.post("/register", function(req, res){
 
 app.get("/login", function(req, res){
   editPost = false;
-  res.render("login", {currentYear:currentYear, auth:auth, home:home, compose:compose, about:about, userStatus:userStatus, createdProfile:createdProfile,  message : req.flash("message")})
+  res.render("login", {currentYear:currentYear, auth:auth, home:home, account:account, compose:compose, about:about, userStatus:userStatus, createdProfile:createdProfile,  message : req.flash("message")})
 })
 
 app.post("/login", function(req, res, next) {
@@ -269,6 +278,11 @@ app.post("/login", function(req, res, next) {
       
       if (req.user.userStatus === "Admin"){
         userStatus = true;
+      }
+      if (createdProfile === false){
+        account = "New User"
+      } else {
+        account = req.user.firstName + " " + req.user.lastName;
       }
       return res.redirect(url)
       
@@ -322,7 +336,7 @@ app.get("/", function(req, res){
         Post.find( (err, post) => {
           if (!err){
             // Render page  
-            res.render("home", {posts: post, home:home, compose:compose, about:about, auth:auth, filterAll:filterAll, filterTech:filterTech,
+            res.render("home", {posts: post, home:home, compose:compose, account:account, about:about, auth:auth, filterAll:filterAll, filterTech:filterTech,
               filterNews:filterNews, filterSports:filterSports, filterEntertainment:filterEntertainment,
               filterFashion:filterFashion, filterBranding:filterBranding, featuresPage:featuresPage,
               currentYear:currentYear, userStatus:userStatus, createdProfile:createdProfile}) 
@@ -332,7 +346,7 @@ app.get("/", function(req, res){
         Post.find({postType:filter}, (err, post) => {
           if (!err){
             // Render page 
-            res.render("home", {posts: post, home:home, compose:compose, about:about, auth:auth, filterAll:filterAll, filterTech:filterTech,
+            res.render("home", {posts: post, home:home, compose:compose, account:account, about:about, auth:auth, filterAll:filterAll, filterTech:filterTech,
               filterNews:filterNews, filterSports:filterSports, filterEntertainment:filterEntertainment,
               filterFashion:filterFashion, filterBranding:filterBranding, featuresPage:featuresPage,
               currentYear:currentYear, userStatus:userStatus, createdProfile:createdProfile})  
@@ -371,14 +385,18 @@ app.post("/", upload.single("image"), function(req, res){
   const newText = req.body.newText
   const bigText = req.body.bigText 
   let userId = req.user.id
-  let image = req.file.path
+  let image = "";
   let postType = req.body.postType
 
   // If compose page image is not changed on edit
   if ( editPost === false){
     image = req.file.path
   } else {
-    image = postImage
+    if(req.file === undefined){
+      image = postImage
+    } else {
+      image = req.file.path 
+    }
   }
 
    // If compose page postType is not changed on edit
@@ -399,7 +417,7 @@ app.post("/", upload.single("image"), function(req, res){
       //   console.log("Updated Successfully")
       // }
     })
-    res.redirect("/")
+    res.redirect("/posts/" + newText)
   }
 
   // If user is editing post
@@ -447,7 +465,7 @@ app.post("/", upload.single("image"), function(req, res){
             postDate: fullDate
           })
           post.save()
-          res.redirect("/");
+          res.redirect("/posts/" + newText);
         }
       }
     }) 
@@ -460,7 +478,7 @@ app.get("/admin", function(req, res){
   if (req.isAuthenticated()){
     if (req.user.userStatus === "Admin"){
       Post.find((err, post) => {
-      res.render("admin", {posts:post, auth:auth, home:home, compose:compose, about:about, currentYear:currentYear, userStatus:userStatus, createdProfile:createdProfile})
+      res.render("admin", {posts:post, auth:auth, home:home, account:account, compose:compose, about:about, currentYear:currentYear, userStatus:userStatus, createdProfile:createdProfile})
       })
       } else {
         res.redirect("/")
@@ -471,34 +489,17 @@ app.get("/admin", function(req, res){
   }    
 });
 
-// Delete  User Feature - Did not code on purpose
-
-// app.get("/adminUser", function(req, res){
-//   if (req.isAuthenticated()){
-//     if (req.user.userStatus === "Admin"){
-//       User.find((err, user) => {
-//       res.render("admin", {user:user, auth:auth, currentYear:currentYear, home:home, compose:compose, about:about, userStatus:userStatus, createdProfile:createdProfile})
-//       })
-//       } else {
-//         res.redirect("/")
-//       }
-//   } else {
-//     url = "/admin"
-//     res.redirect("/login")
-//   }    
-// });
-
 app.get("/about", function(req, res){
   active = "about";
   activeNav();
   editPost = false;
-  res.render("about", {mainText: aboutContent, auth:auth, home:home, compose:compose, about:about, userStatus:userStatus, currentYear:currentYear, createdProfile:createdProfile})
+  res.render("about", {mainText: aboutContent, auth:auth, home:home, account:account, compose:compose, about:about, userStatus:userStatus, currentYear:currentYear, createdProfile:createdProfile})
 });
 
 app.get("/contact", function(req, res){
   editPost = false;
   activeNav();
-  res.render("contact", {mainText: contactContent, auth:auth, userStatus:userStatus, currentYear:currentYear, createdProfile:createdProfile})
+  res.render("contact", {mainText: contactContent, auth:auth, account:account, userStatus:userStatus, currentYear:currentYear, createdProfile:createdProfile})
 });
 
 app.get("/compose", function(req, res){
@@ -510,7 +511,7 @@ app.get("/compose", function(req, res){
       url = "/"
       res.render("compose", {currentYear:currentYear, editPostPost:editPostPost, editPost:editPost, editPostName:editPostName,
         editPostImage:editPostImage, editPostType:editPostType, userStatus:userStatus, home:home, compose:compose, about:about, auth:auth, createdProfile:createdProfile,
-        message : req.flash("message")})
+        message : req.flash("message"), account:account})
     }
     if (editPost === false){
       editPostPost = "";
@@ -544,7 +545,7 @@ app.get("/profile", function(req, res){
         res.render("profile", {currentYear:currentYear, auth:auth, home:home, compose:compose, about:about, stat:stat, createdProfile:createdProfile,
           statButton:statButton, accountName:user[0].accountName, username:user[0].username, firstNameEdit:firstNameEdit,
           lastNameEdit:lastNameEdit, aboutEdit:aboutEdit, userStatus:userStatus, phoneNoEdit:phoneNoEdit, bloggerStatusEdit:bloggerStatusEdit,
-          message : req.flash("message")})        
+          message : req.flash("message"), account:account})        
       }
     })    
   } else {
@@ -567,7 +568,7 @@ app.post("/profile", cpUpload, (req, res) => {
       bloggerStatus = bloggerStatusEdit
     }
   User.updateMany({_id: req.user.id}, {'$set':{firstName: req.body.firstName, lastName:req.body.lastName,
-    accountName:req.body.username, aboutUser:req.body.aboutP, bloggerStatus:bloggerStatus,
+    accountName:req.body.username, aboutUser:req.body.aboutP, bloggerStatus:bloggerStatus, account:account, 
     phoneNumber:req.body.phoneNumber, dashImage:req.body.dashImage, profileImage:req.body.profileImage}}, function (err, user){
     if (err){
       console.log(err)
@@ -608,7 +609,7 @@ app.get("/myProfile", function(req, res){
               let userP = req.user.dashImage
               // res.render("myProfile", {currentYear:currentYear, auth:auth, })
               res.render("myProfile", {currentYear:currentYear, auth:auth, userPosts:userPosts, noPost:noPost,
-                createdProfile:createdProfile, accountName:user[0].accountName, username:user[0].username,
+                createdProfile:createdProfile, accountName:user[0].accountName, username:user[0].username, account:account, 
                 firstNameEdit:firstNameEdit, userStatus:userStatus, lastNameEdit:lastNameEdit, aboutEdit:aboutEdit, phoneNoEdit:phoneNoEdit,
                 bloggerStatusEdit:bloggerStatusEdit, home:home, compose:compose, userP:userP, about:about})        
             }
@@ -655,7 +656,7 @@ app.get("/myPosts", function(req, res){
               res.render("myPosts", {currentYear:currentYear, auth:auth, userPosts:userPosts, noPost:noPost,
                 createdProfile:createdProfile, accountName:user[0].accountName, username:user[0].username,
                 firstNameEdit:firstNameEdit, userStatus:userStatus, lastNameEdit:lastNameEdit, aboutEdit:aboutEdit, phoneNoEdit:phoneNoEdit,
-                bloggerStatusEdit:bloggerStatusEdit, home:home, compose:compose, about:about})        
+                bloggerStatusEdit:bloggerStatusEdit, home:home, compose:compose, about:about, account:account})        
             }
           }) 
         }         
@@ -674,10 +675,11 @@ app.get("/edit", (req, res) => {
   res.redirect("/compose")
 })
 
+
 app.get("/posts/:topic", function(req, res){
   active = "";
   activeNav();
-let parameter = _.kebabCase(req.params.topic)
+  let parameter = _.kebabCase(req.params.topic)
   delUrl = parameter
   Post.find(function(err, postName){
     postName = postName
@@ -709,7 +711,7 @@ let parameter = _.kebabCase(req.params.topic)
           let delUrl = parameter
           res.render("posts", {title :post.name, userId:userId, home:home, compose:compose, about:about, myPost:myPost, userStatus:userStatus,
             postType:post.postType, postDate:post.postDate, image:post.image, Posts:postName, bigText:post.post,
-            auth:auth, currentYear:currentYear, createdProfile:createdProfile} )                             
+            auth:auth, currentYear:currentYear, createdProfile:createdProfile, account:account} )                             
         }
       }
     } else {
@@ -746,7 +748,6 @@ app.get("/delete", (req, res)=>{
     res.redirect("/login")
   }    
 })
-
 
 app.listen(process.env.PORT || 3000, function() {
   console.log("Server running on port 3000");
