@@ -79,8 +79,6 @@ app.use(passport.session());
 mongoose.connect("mongodb+srv://excel:excel2000@cluster0.nmntn.mongodb.net/blogDB");
 // mongoose.connect("mongodb://localhost:27017/blogDB");
 
-// test
-
 let url = "/";
 let delUrl = "/";
 let auth = false;
@@ -174,6 +172,7 @@ app.get("/logout", function(req, res){
   auth = false;
   editPost = false;
   noPost = true;
+  myPost = false;
   createdProfile = false;
   userStatus = false;
   account = "Login";
