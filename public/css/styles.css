@@ -1,5 +1,9 @@
 /* Navbar Sticky class*/
 
+.dnav {
+  z-index: 1;
+}
+
 .sticky {
   position: fixed;
   top: 0;

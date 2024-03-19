@@ -78,6 +78,8 @@ app.use(passport.session());
 
 mongoose.connect("mongodb+srv://excel:excel2000@cluster0.nmntn.mongodb.net/blogDB");
 // mongoose.connect("mongodb://localhost:27017/blogDB");
+// mongoose.connect("mongodb://127.0.0.1:27017/blogDB");
+
 
 let url = "/";
 let delUrl = "/";
